@@ -2,7 +2,7 @@ package team.creative.creativecore.common.config.holder;
 
 import java.lang.reflect.Field;
 
-import net.minecraftforge.api.distmarker.Dist;
+import net.fabricmc.api.EnvType;
 import team.creative.creativecore.common.config.converation.ConfigTypeConveration;
 import team.creative.creativecore.common.config.sync.ConfigSynchronization;
 
@@ -51,19 +51,19 @@ public abstract class ConfigKey {
         return one.equals(two);
     }
     
-    public boolean isDefault(Dist side) {
+    public boolean isDefault(EnvType side) {
         if (defaultValue instanceof ICreativeConfigHolder)
             return ((ICreativeConfigHolder) defaultValue).isDefault(side);
         return checkEqual(defaultValue, get());
     }
     
-    public boolean isDefault(Object value, Dist side) {
+    public boolean isDefault(Object value, EnvType side) {
         if (defaultValue instanceof ICreativeConfigHolder)
             return ((ICreativeConfigHolder) defaultValue).isDefault(side);
         return checkEqual(defaultValue, value);
     }
     
-    public void restoreDefault(Dist side, boolean ignoreRestart) {
+    public void restoreDefault(EnvType side, boolean ignoreRestart) {
         if (defaultValue instanceof ICreativeConfigHolder)
             ((ICreativeConfigHolder) defaultValue).restoreDefault(side, ignoreRestart);
         else
@@ -78,13 +78,13 @@ public abstract class ConfigKey {
         return defaultValue.getClass();
     }
     
-    public boolean is(Dist side) {
+    public boolean is(EnvType side) {
         if (defaultValue instanceof ICreativeConfigHolder)
             return synchronization.useFolder(forceSynchronization, side);
         return synchronization.useValue(forceSynchronization, side);
     }
     
-    public boolean isWithoutForce(Dist side) {
+    public boolean isWithoutForce(EnvType side) {
         if (defaultValue instanceof ICreativeConfigHolder)
             return synchronization.useFolder(false, side);
         return synchronization.useValue(false, side);

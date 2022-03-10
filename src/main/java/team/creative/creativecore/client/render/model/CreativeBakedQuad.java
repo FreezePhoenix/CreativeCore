@@ -26,12 +26,4 @@ public class CreativeBakedQuad extends BakedQuad {
             newarray[i] = array[i];
         return newarray;
     }
-    
-    @Override
-    public void pipe(net.minecraftforge.client.model.pipeline.IVertexConsumer consumer) {
-        lastRenderedQuad.set(this);
-        net.minecraftforge.client.model.pipeline.LightUtil.putBakedQuad(consumer, this);
-        lastRenderedQuad.set(null);
-    }
-    
 }

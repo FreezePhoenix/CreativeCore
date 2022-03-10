@@ -28,7 +28,7 @@ public class OptifineHelper {
         return model;
     }
     
-    public static List<BakedQuad> getBakedQuad(List<BakedQuad> quads, LevelAccessor level, BlockState state, Facing facing, BlockPos pos, RenderType layer, Random rand) {
+    public static List<BakedQuad> getBakedQuad(List<BakedQuad> quads, LevelAccessor level, BlockState state, Facing facing, BlockPos pos, Random rand) {
         return quads;
     }
     

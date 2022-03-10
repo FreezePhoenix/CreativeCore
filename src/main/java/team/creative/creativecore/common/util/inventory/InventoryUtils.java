@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.Container;
 import net.minecraft.world.SimpleContainer;
@@ -49,8 +50,9 @@ public class InventoryUtils {
         
         if (stackA.getItem() != stackB.getItem())
             return false;
-        
-        return stackA.areShareTagsEqual(stackB) && stackA.areCapsCompatible(stackB);
+
+        return true;
+//        return stackA.areShareTagsEqual(stackB) && stackA.areCapsCompatible(stackB);
     }
     
     public static boolean consumeItemStack(Container inventory, ItemStack stack) {
@@ -150,7 +152,7 @@ public class InventoryUtils {
                 
                 @Override
                 public int compare(ItemStack arg0, ItemStack arg1) {
-                    return arg0.getItem().getRegistryName().toString().compareToIgnoreCase(arg1.getItem().getRegistryName().toString());
+                    return Registry.ITEM.getKey(arg0.getItem()).toString().compareToIgnoreCase(Registry.ITEM.getKey(arg1.getItem()).toString());
                 }
                 
             });
@@ -171,7 +173,7 @@ public class InventoryUtils {
                     if (arg0.getDamageValue() > arg1.getDamageValue())
                         return 1;
                     
-                    return arg0.getItem().getRegistryName().toString().compareToIgnoreCase(arg1.getItem().getRegistryName().toString());
+                    return Registry.ITEM.getKey(arg0.getItem()).toString().compareToIgnoreCase(Registry.ITEM.getKey(arg1.getItem()).toString());
                 }
                 
             });

@@ -1,5 +1,6 @@
 package team.creative.creativecore.common.level;
 
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.level.GameRules;
@@ -129,7 +130,6 @@ public class FakeLevelInfo implements WritableLevelData {
     }
     
     public void setDifficulty(Difficulty p_239156_1_) {
-        net.minecraftforge.common.ForgeHooks.onDifficultyChange(p_239156_1_, this.difficulty);
         this.difficulty = p_239156_1_;
     }
     

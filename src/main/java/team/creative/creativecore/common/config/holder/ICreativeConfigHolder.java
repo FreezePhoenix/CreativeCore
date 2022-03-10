@@ -1,42 +1,41 @@
 package team.creative.creativecore.common.config.holder;
 
-import java.util.Collection;
-
 import com.google.gson.JsonObject;
-
-import net.minecraftforge.api.distmarker.Dist;
+import net.fabricmc.api.EnvType;
 import team.creative.creativecore.common.config.sync.ConfigSynchronization;
 
+import java.util.Collection;
+
 public interface ICreativeConfigHolder {
-    
-    public ICreativeConfigHolder parent();
-    
-    public default String getName() {
-        return path()[path().length - 1];
-    }
-    
-    public String[] path();
-    
-    public Collection<? extends ConfigKey> fields();
-    
-    public Collection<String> names();
-    
-    public Object get(String key);
-    
-    public ConfigKey getField(String key);
-    
-    public boolean isDefault(Dist side);
-    
-    public void restoreDefault(Dist side, boolean ignoreRestart);
-    
-    public void load(boolean loadDefault, boolean ignoreRestart, JsonObject json, Dist side);
-    
-    public JsonObject save(boolean saveDefault, boolean ignoreRestart, Dist side);
-    
-    public boolean isEmpty(Dist side);
-    
-    public boolean isEmptyWithoutForce(Dist side);
-    
-    public ConfigSynchronization synchronization();
-    
+
+	ICreativeConfigHolder parent();
+
+	default String getName() {
+		return path()[path().length - 1];
+	}
+
+	String[] path();
+
+	Collection<? extends ConfigKey> fields();
+
+	Collection<String> names();
+
+	Object get(String key);
+
+	ConfigKey getField(String key);
+
+	boolean isDefault(EnvType side);
+
+	void restoreDefault(EnvType side, boolean ignoreRestart);
+
+	void load(boolean loadDefault, boolean ignoreRestart, JsonObject json, EnvType side);
+
+	JsonObject save(boolean saveDefault, boolean ignoreRestart, EnvType side);
+
+	boolean isEmpty(EnvType side);
+
+	boolean isEmptyWithoutForce(EnvType side);
+
+	ConfigSynchronization synchronization();
+
 }

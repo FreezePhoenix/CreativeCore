@@ -1,17 +1,19 @@
 package team.creative.creativecore.common.util.ingredient;
 
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 
 public class CreativeIngredientItemTag extends CreativeIngredient {
     
-    public Tag<Item> tag;
+    public TagKey<Item> tag;
     
-    public CreativeIngredientItemTag(Tag<Item> tag) {
+    public CreativeIngredientItemTag(TagKey<Item> tag) {
         this.tag = tag;
     }
     
@@ -21,17 +23,17 @@ public class CreativeIngredientItemTag extends CreativeIngredient {
     
     @Override
     protected void saveExtra(CompoundTag nbt) {
-        nbt.putString("tag", ItemTags.getAllTags().getId(tag).toString());
+        nbt.putString("tag", tag.location().toString());
     }
     
     @Override
     protected void loadExtra(CompoundTag nbt) {
-        tag = ItemTags.getAllTags().getTag(new ResourceLocation(nbt.getString("tag")));
+        tag = TagKey.create(Registry.ITEM_REGISTRY, new ResourceLocation(nbt.getString("tag")));
     }
     
     @Override
     public boolean is(ItemStack stack) {
-        return tag.contains(stack.getItem());
+        return stack.is(tag);
     }
     
     @Override
@@ -41,9 +43,11 @@ public class CreativeIngredientItemTag extends CreativeIngredient {
     
     @Override
     public ItemStack getExample() {
-        if (tag.getValues().isEmpty())
+        var entry = Registry.ITEM.getTag(tag).get();
+        if (entry.size() == 0) {
             return ItemStack.EMPTY;
-        return new ItemStack(tag.getValues().iterator().next());
+        }
+        return new ItemStack(entry.get(0));
     }
     
     @Override

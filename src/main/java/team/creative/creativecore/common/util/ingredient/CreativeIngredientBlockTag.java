@@ -1,17 +1,20 @@
 package team.creative.creativecore.common.util.ingredient;
 
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 
 public class CreativeIngredientBlockTag extends CreativeIngredient {
     
-    public Tag<Block> tag;
+    public TagKey<Block> tag;
     
-    public CreativeIngredientBlockTag(Tag<Block> tag) {
+    public CreativeIngredientBlockTag(TagKey<Block> tag) {
         this.tag = tag;
     }
     
@@ -21,19 +24,20 @@ public class CreativeIngredientBlockTag extends CreativeIngredient {
     
     @Override
     protected void saveExtra(CompoundTag nbt) {
-        nbt.putString("tag", BlockTags.getAllTags().getId(tag).toString());
+        nbt.putString("tag", tag.location().toString());
     }
     
     @Override
     protected void loadExtra(CompoundTag nbt) {
-        tag = BlockTags.getAllTags().getTag(new ResourceLocation(nbt.getString("tag")));
+        tag = TagKey.create(Registry.BLOCK_REGISTRY, new ResourceLocation(nbt.getString("tag")));
     }
     
     @Override
     public boolean is(ItemStack stack) {
         Block block = Block.byItem(stack.getItem());
-        if (block != null)
-            return tag.contains(block);
+        if (block != null) {
+            return block.builtInRegistryHolder().is(tag);
+        }
         return false;
     }
     
@@ -44,9 +48,10 @@ public class CreativeIngredientBlockTag extends CreativeIngredient {
     
     @Override
     public ItemStack getExample() {
-        if (tag.getValues().isEmpty())
+        var entry = Registry.BLOCK.getTag(tag).get();
+        if (entry.size() == 0)
             return ItemStack.EMPTY;
-        return new ItemStack(tag.getValues().iterator().next());
+        return new ItemStack(entry.get(0).value());
     }
     
     @Override

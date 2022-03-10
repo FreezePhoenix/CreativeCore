@@ -3,6 +3,7 @@ package team.creative.creativecore.common.config.gui;
 import java.util.List;
 
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.tags.BlockTags;
@@ -50,13 +51,13 @@ public class GuiInfoStackButton extends GuiButton {
         if (value != null) {
             text.stack(value.getExample());
             if (value instanceof CreativeIngredientBlock)
-                text.text("Block: " + ChatFormatting.YELLOW + ((CreativeIngredientBlock) value).block.getRegistryName().toString());
+                text.text("Block: " + ChatFormatting.YELLOW + Registry.BLOCK.getKey(((CreativeIngredientBlock) value).block).toString());
             else if (value instanceof CreativeIngredientBlockTag)
-                text.text("Blocktag: " + ChatFormatting.YELLOW + BlockTags.getAllTags().getId(((CreativeIngredientBlockTag) value).tag).toString());
+                text.text("Blocktag: " + ChatFormatting.YELLOW + (((CreativeIngredientBlockTag) value).tag).location().toString());
             else if (value instanceof CreativeIngredientItem)
-                text.text("Item: " + ChatFormatting.YELLOW + ((CreativeIngredientItem) value).item.getRegistryName().toString());
+                text.text("Item: " + ChatFormatting.YELLOW + Registry.ITEM.getKey(((CreativeIngredientItem) value).item).toString());
             else if (value instanceof CreativeIngredientItemTag)
-                text.text("Itemtag: " + ChatFormatting.YELLOW + ItemTags.getAllTags().getId(((CreativeIngredientItemTag) value).tag).toString());
+                text.text("Itemtag: " + ChatFormatting.YELLOW + (((CreativeIngredientItemTag) value).tag).location().toString());
             else if (value instanceof CreativeIngredientItemStack)
                 text.text("Stack: " + ChatFormatting.YELLOW).add(((CreativeIngredientItemStack) value).stack.getDisplayName());
             else if (value instanceof CreativeIngredientMaterial)

@@ -1,6 +1,6 @@
 package team.creative.creativecore.common.config.premade.curve;
 
-import net.minecraftforge.api.distmarker.Dist;
+import net.fabricmc.api.EnvType;
 import team.creative.creativecore.common.config.api.CreativeConfig;
 import team.creative.creativecore.common.config.api.ICreativeConfig;
 
@@ -19,7 +19,7 @@ public class LinearCurve implements ICreativeConfig, Curve {
     }
     
     @Override
-    public void configured(Dist side) {
+    public void configured(EnvType side) {
         
     }
     

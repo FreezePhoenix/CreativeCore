@@ -39,13 +39,13 @@ public class VectorUtils {
     public static void set(Vector3f vec, float value, Axis axis) {
         switch (axis) {
         case X:
-            vec.setX(value);
+            vec.set(value,vec.y(),vec.z());
             break;
         case Y:
-            vec.setY(value);
+            vec.set(vec.x(), value, vec.z());
             break;
         case Z:
-            vec.setZ(value);
+            vec.set(vec.x(), vec.y(), value);
             break;
         }
         throw new IllegalArgumentException();

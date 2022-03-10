@@ -6,12 +6,9 @@ import net.minecraft.client.StringSplitter;
 import net.minecraft.client.StringSplitter.WidthProvider;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSink;
-import net.minecraftforge.fml.util.ObfuscationReflectionHelper;
+import team.creative.creativecore.mixin.StringSplitterAccessor;
 
 public class WidthLimitedCharSink implements FormattedCharSink {
-    
-    private static Field widthProviderField = ObfuscationReflectionHelper.findField(StringSplitter.class, "f_92333_");
-    
     private final StringSplitter.WidthProvider widthProvider;
     private float maxWidth;
     private int position;
@@ -19,11 +16,7 @@ public class WidthLimitedCharSink implements FormattedCharSink {
     
     public WidthLimitedCharSink(float maxWidth, StringSplitter splitter) {
         this.maxWidth = maxWidth;
-        try {
-            this.widthProvider = (WidthProvider) widthProviderField.get(splitter);
-        } catch (IllegalArgumentException | IllegalAccessException e) {
-            throw new RuntimeException(e);
-        }
+        this.widthProvider = ((StringSplitterAccessor) splitter).getWidthProvider();
         resetPosition();
     }
     

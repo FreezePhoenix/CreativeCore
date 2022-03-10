@@ -4,6 +4,7 @@ import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.TextComponent;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.SimpleMenuProvider;
+import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import team.creative.creativecore.CreativeCore;
 import team.creative.creativecore.common.gui.handler.GuiCreator;
@@ -35,7 +36,7 @@ public class OpenGuiPacket extends CreativePacket {
     }
     
     public static void openGuiOnServer(GuiCreator creator, CompoundTag nbt, ServerPlayer player) {
-        player.openMenu(new SimpleMenuProvider((id, inventory, x) -> new ContainerIntegration(CreativeCore.GUI_CONTAINER, id, x, creator.function
+        player.openMenu(new SimpleMenuProvider((int id, Inventory inventory, Player x) -> new ContainerIntegration(CreativeCore.GUI_CONTAINER, id, x, creator.function
                 .apply(nbt, player)), new TextComponent(creator.getName())));
         CreativeCore.NETWORK.sendToClient(new OpenGuiPacket(creator.getName(), nbt), player);
     }

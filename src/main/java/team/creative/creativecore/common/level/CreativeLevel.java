@@ -7,6 +7,8 @@ import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import net.minecraft.core.Holder;
+import net.minecraft.core.Registry;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.level.ChunkPos;
@@ -36,7 +38,8 @@ public abstract class CreativeLevel extends Level implements IOrientatedLevel {
     public boolean preventNeighborUpdate = false;
     
     protected CreativeLevel(WritableLevelData worldInfo, int radius, Supplier<ProfilerFiller> supplier, boolean client, boolean debug, long seed) {
-        super(worldInfo, CreativeCore.FAKE_DIMENSION_NAME, CreativeCore.FAKE_DIMENSION, supplier, client, debug, seed);
+        super(worldInfo, CreativeCore.FAKE_DIMENSION_NAME,
+              Holder.direct(CreativeCore.FAKE_DIMENSION), supplier, client, debug, seed);
         this.chunkSource = new FakeChunkCache(this, radius);
     }
     
@@ -68,9 +71,10 @@ public abstract class CreativeLevel extends Level implements IOrientatedLevel {
                 CrashReportCategory crashreportcategory = crashreport.addCategory("Block being updated");
                 crashreportcategory.setDetail("Source block type", () -> {
                     try {
-                        return String.format("ID #%s (%s // %s)", blockIn.getRegistryName(), blockIn.getDescriptionId(), blockIn.getClass().getCanonicalName());
+                        return String.format("ID #%s (%s // %s)",
+                                             Registry.BLOCK.getKey(blockIn), blockIn.getDescriptionId(), blockIn.getClass().getCanonicalName());
                     } catch (Throwable throwable1) {
-                        return "ID #" + blockIn.getRegistryName();
+                        return "ID #" + Registry.BLOCK.getKey(blockIn);
                     }
                 });
                 CrashReportCategory.populateBlockDetails(crashreportcategory, this, pos, blockstate);

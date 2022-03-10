@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "id": "creativecore",
+  "version": "2.5.0",
+
+  "name": "CreativeCore (Fabric)",
+  "description": "",
+  "authors": [
+    "CreativeMD",
+    "AriaFreeze"
+  ],
+  "contact": {},
+  "license": "GNU LGPL v2.1",
+  "icon": "assets/creativecore/icon.png",
+
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "team.creative.creativecore.CreativeCore"
+    ],
+    "client": [
+      "team.creative.creativecore.client.CreativeCoreClient"
+    ]
+  },
+  "mixins": [
+    "creativecore.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": "1.18.x"
+  }
+}
