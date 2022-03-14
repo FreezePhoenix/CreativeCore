@@ -4,6 +4,9 @@ import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
+import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.world.level.LevelAccessor;
 import team.creative.creativecore.client.ClientLoader;
 
@@ -22,20 +25,20 @@ public class CreativeFabricLoader implements ICreativeLoader {
     
     @Override
     public void registerClientTick(Runnable run) {
-        // TODO Auto-generated method stub
-        
+        ClientTickEvents.END_CLIENT_TICK.register(x -> run.run());
     }
     
     @Override
     public void registerClientRender(Runnable run) {
-        // TODO Auto-generated method stub
-        
+        HudRenderCallback.EVENT.register((matrix, partialTicks) -> run.run());
     }
     
     @Override
     public void registerLoadLevel(Consumer<LevelAccessor> consumer) {
-        // TODO Auto-generated method stub
-        
+        ServerWorldEvents.LOAD.register((server, level) -> consumer.accept(level));
     }
+    
+    @Override
+    public <T> void registerListener(Consumer<T> consumer) {}
     
 }
