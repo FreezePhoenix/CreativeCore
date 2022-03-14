@@ -1,11 +1,10 @@
-package team.creative.creativecore.fabric;
+package team.creative.creativecore;
 
 import java.util.function.BiPredicate;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import net.minecraft.world.level.LevelAccessor;
-import team.creative.creativecore.ICreativeLoader;
 import team.creative.creativecore.client.ClientLoader;
 
 public class CreativeFabricLoader implements ICreativeLoader {
