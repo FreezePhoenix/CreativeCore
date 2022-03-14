@@ -88,6 +88,7 @@ public class CreativeCore implements ModInitializer {
 		ServerLifecycleEvents.SERVER_STARTING.register(this::server);
 	}
 
+
 	private void server(MinecraftServer server) {
 		server.getCommands().getDispatcher().register(Commands.literal("cmdconfig").executes((CommandContext<CommandSourceStack> x) -> {
 			CONFIG_OPEN.open(new CompoundTag(), x.getSource().getPlayerOrException());
