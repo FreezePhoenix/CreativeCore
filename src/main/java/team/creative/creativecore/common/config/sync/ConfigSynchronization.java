@@ -1,50 +1,49 @@
 package team.creative.creativecore.common.config.sync;
 
-import net.fabricmc.api.EnvType;
+import team.creative.creativecore.Side;
 
 public enum ConfigSynchronization {
     
     CLIENT {
         @Override
-        public boolean useFolder(boolean forceSynchronization, EnvType side) {
-            if (forceSynchronization) {
-                return side == EnvType.SERVER;
-            }
-            return side == EnvType.CLIENT;
+        public boolean useFolder(boolean forceSynchronization, Side side) {
+            if (forceSynchronization)
+                return side.isServer();
+            return side.isClient();
         }
         
         @Override
-        public boolean useValue(boolean forceSynchronization, EnvType side) {
+        public boolean useValue(boolean forceSynchronization, Side side) {
             if (forceSynchronization)
-                return side == EnvType.SERVER;
-            return side == EnvType.SERVER;
+                return side.isServer();
+            return side.isClient();
         }
     },
     UNIVERSAL {
         @Override
-        public boolean useFolder(boolean forceSynchronization, EnvType side) {
+        public boolean useFolder(boolean forceSynchronization, Side side) {
             return true;
         }
         
         @Override
-        public boolean useValue(boolean forceSynchronization, EnvType side) {
-            return side == EnvType.SERVER;
+        public boolean useValue(boolean forceSynchronization, Side side) {
+            return side.isServer();
         }
     },
     SERVER {
         @Override
-        public boolean useFolder(boolean forceSynchronization, EnvType side) {
-            return side == EnvType.SERVER;
+        public boolean useFolder(boolean forceSynchronization, Side side) {
+            return side.isServer();
         }
         
         @Override
-        public boolean useValue(boolean forceSynchronization, EnvType side) {
-            return side == EnvType.SERVER;
+        public boolean useValue(boolean forceSynchronization, Side side) {
+            return side.isServer();
         }
     };
     
-    public abstract boolean useFolder(boolean forceSynchronization, EnvType side);
+    public abstract boolean useFolder(boolean forceSynchronization, Side side);
     
-    public abstract boolean useValue(boolean forceSynchronization, EnvType side);
+    public abstract boolean useValue(boolean forceSynchronization, Side side);
     
 }

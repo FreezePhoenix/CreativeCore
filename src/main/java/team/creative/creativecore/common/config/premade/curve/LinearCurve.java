@@ -1,6 +1,6 @@
 package team.creative.creativecore.common.config.premade.curve;
 
-import net.fabricmc.api.EnvType;
+import team.creative.creativecore.Side;
 import team.creative.creativecore.common.config.api.CreativeConfig;
 import team.creative.creativecore.common.config.api.ICreativeConfig;
 
@@ -19,8 +19,6 @@ public class LinearCurve implements ICreativeConfig, Curve {
     }
     
     @Override
-    public void configured(EnvType side) {
-        
-    }
+    public void configured(Side side) {}
     
 }

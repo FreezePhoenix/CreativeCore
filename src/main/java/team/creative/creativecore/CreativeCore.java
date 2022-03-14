@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 
 import com.mojang.brigadier.context.CommandContext;
 
-import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
@@ -55,10 +54,10 @@ public class CreativeCore implements ModInitializer {
     public static final ResourceLocation FAKE_WORLD_LOCATION = new ResourceLocation(MODID, "fake");
     public static ResourceKey<Level> FAKE_DIMENSION_NAME = ResourceKey.create(Registry.DIMENSION_REGISTRY, FAKE_WORLD_LOCATION);
     public static final GuiCreatorBasic CONFIG_OPEN = GuiCreator
-            .register("config", new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(CreativeConfigRegistry.ROOT, EnvType.SERVER)));
+            .register("config", new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(CreativeConfigRegistry.ROOT, Side.SERVER)));
     
     public static final GuiCreatorBasic CONFIG_CLIENT_OPEN = GuiCreator
-            .register("clientconfig", new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(CreativeConfigRegistry.ROOT, EnvType.CLIENT)));
+            .register("clientconfig", new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(CreativeConfigRegistry.ROOT, Side.CLIENT)));
     public static final GuiCreatorBasic CONFIG_CLIENT_SYNC_OPEN = GuiCreator
             .register("clientsyncconfig", new GuiCreatorBasic((player, nbt) -> new ClientSyncGuiLayer(CreativeConfigRegistry.ROOT)));
     public static ConfigEventHandler CONFIG_HANDLER;
@@ -78,7 +77,6 @@ public class CreativeCore implements ModInitializer {
     
     @Override
     public void onInitialize() {
-        
         GUI_CONTAINER = ScreenHandlerRegistry
                 .registerSimple(new ResourceLocation(CreativeCore.MODID, "container"), new ScreenHandlerRegistry.SimpleClientHandlerFactory<ContainerIntegration>() {
                     @Override
