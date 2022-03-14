@@ -6,8 +6,6 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ItemTags;
 import team.creative.creativecore.common.gui.GuiLayer;
 import team.creative.creativecore.common.gui.controls.simple.GuiButton;
 import team.creative.creativecore.common.gui.event.GuiControlChangedEvent;

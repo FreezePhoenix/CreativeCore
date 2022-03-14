@@ -1,9 +1,6 @@
 package team.creative.creativecore.client.render.text;
 
-import java.lang.reflect.Field;
-
 import net.minecraft.client.StringSplitter;
-import net.minecraft.client.StringSplitter.WidthProvider;
 import net.minecraft.network.chat.Style;
 import net.minecraft.util.FormattedCharSink;
 import team.creative.creativecore.mixin.StringSplitterAccessor;
