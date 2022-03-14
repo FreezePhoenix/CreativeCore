@@ -50,9 +50,9 @@ public class InventoryUtils {
         
         if (stackA.getItem() != stackB.getItem())
             return false;
-
+        
         return true;
-//        return stackA.areShareTagsEqual(stackB) && stackA.areCapsCompatible(stackB);
+        //        return stackA.areShareTagsEqual(stackB) && stackA.areCapsCompatible(stackB);
     }
     
     public static boolean consumeItemStack(Container inventory, ItemStack stack) {

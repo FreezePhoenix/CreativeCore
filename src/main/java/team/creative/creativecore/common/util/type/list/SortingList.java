@@ -138,8 +138,7 @@ public class SortingList implements List<CreativeIngredient> {
     /** If the given object can pass the test. Whitelist: if it can be found.
      * Blacklist: if it cannot be found.
      * 
-     * @param object
-     */
+     * @param object */
     public boolean canPass(Object object) {
         return canBeFoundInList(object) == isWhitelist;
     }
@@ -147,8 +146,7 @@ public class SortingList implements List<CreativeIngredient> {
     /** If the given itemstack can pass the test. Whitelist: if it can be found.
      * Blacklist: if it cannot be found.
      * 
-     * @param object
-     */
+     * @param object */
     public boolean canPass(ItemStack stack) {
         return canBeFoundInList(stack) == isWhitelist;
     }

@@ -10,18 +10,24 @@ import java.nio.ByteBuffer;
 
 @Mixin(BufferBuilder.class)
 public interface BufferBuilderAccessor {
-	@Accessor
-	ByteBuffer getBuffer();
-	@Accessor
-	void setBuffer(ByteBuffer b);
-	@Accessor
-	int getNextElementByte();
-	@Accessor
-	int getVertices();
-	@Accessor
-	void setVertices(int i);
-	@Accessor
-	VertexFormat getFormat();
-	@Invoker
-	void invokeEnsureCapacity(int i);
+    @Accessor
+    ByteBuffer getBuffer();
+    
+    @Accessor
+    void setBuffer(ByteBuffer b);
+    
+    @Accessor
+    int getNextElementByte();
+    
+    @Accessor
+    int getVertices();
+    
+    @Accessor
+    void setVertices(int i);
+    
+    @Accessor
+    VertexFormat getFormat();
+    
+    @Invoker
+    void invokeEnsureCapacity(int i);
 }
