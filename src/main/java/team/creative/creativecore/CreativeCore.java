@@ -1,6 +1,12 @@
 package team.creative.creativecore;
 
+import java.util.OptionalLong;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import com.mojang.brigadier.context.CommandContext;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
@@ -21,8 +27,6 @@ import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.dimension.DimensionType;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import team.creative.creativecore.common.config.event.ConfigEventHandler;
 import team.creative.creativecore.common.config.gui.ClientSyncGuiLayer;
 import team.creative.creativecore.common.config.gui.ConfigGuiLayer;
@@ -40,109 +44,65 @@ import team.creative.creativecore.common.gui.packet.LayerOpenPacket;
 import team.creative.creativecore.common.gui.packet.OpenGuiPacket;
 import team.creative.creativecore.common.network.CreativeNetwork;
 import team.creative.creativecore.common.util.argument.StringArrayArgumentType;
-
-import java.util.OptionalLong;
+import team.creative.creativecore.fabric.CreativeFabricLoader;
 
 public class CreativeCore implements ModInitializer {
-
-	public static final String MODID = "creativecore";
-	public static final Logger LOGGER = LogManager.getLogger(CreativeCore.MODID);
-	public static final CreativeNetwork NETWORK = new CreativeNetwork(
-			"1.0",
-			LOGGER,
-			new ResourceLocation(CreativeCore.MODID, "main")
-	);
-	public static final CreativeCoreConfig CONFIG = new CreativeCoreConfig();
-	public static final ResourceLocation FAKE_WORLD_LOCATION = new ResourceLocation(MODID, "fake");
-	public static ResourceKey<Level> FAKE_DIMENSION_NAME = ResourceKey.create(
-			Registry.DIMENSION_REGISTRY,
-			FAKE_WORLD_LOCATION
-	);
-	public static final GuiCreatorBasic CONFIG_OPEN = GuiCreator
-			.register(
-					"config",
-					new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(
-							CreativeConfigRegistry.ROOT,
-							EnvType.SERVER
-					))
-			);
-
-	public static final GuiCreatorBasic CONFIG_CLIENT_OPEN = GuiCreator
-			.register(
-					"clientconfig",
-					new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(
-							CreativeConfigRegistry.ROOT,
-							EnvType.CLIENT
-					))
-			);
-	public static final GuiCreatorBasic CONFIG_CLIENT_SYNC_OPEN = GuiCreator
-			.register(
-					"clientsyncconfig",
-					new GuiCreatorBasic((player, nbt) -> new ClientSyncGuiLayer(CreativeConfigRegistry.ROOT))
-			);
-	public static ConfigEventHandler CONFIG_HANDLER;
-	public static DimensionType FAKE_DIMENSION;
-	public static MenuType<ContainerIntegration> GUI_CONTAINER;
-
-	public CreativeCore() {
-		ServerLifecycleEvents.SERVER_STARTING.register(this::server);
-	}
-
-	private void server(MinecraftServer server) {
-		server.getCommands().getDispatcher().register(Commands.literal("cmdconfig").executes((CommandContext<CommandSourceStack> x) -> {
-			CONFIG_OPEN.open(new CompoundTag(), x.getSource().getPlayerOrException());
-			return 0;
-		}));
-	}
-
-	public void onInitialize() {
-
-		GUI_CONTAINER = ScreenHandlerRegistry.registerSimple(
-				new ResourceLocation(CreativeCore.MODID, "container"),
-				new ScreenHandlerRegistry.SimpleClientHandlerFactory<ContainerIntegration>() {
-					@Override
-					public ContainerIntegration create(int syncId, Inventory inventory) {
-						return new ContainerIntegration(
-								GUI_CONTAINER,
-								syncId,
-								inventory.player
-						);
-					}
-				}
-		);
-		NETWORK.registerType(ConfigurationChangePacket.class, ConfigurationChangePacket::new);
-		NETWORK.registerType(ConfigurationClientPacket.class, ConfigurationClientPacket::new);
-		NETWORK.registerType(ConfigurationPacket.class, ConfigurationPacket::new);
-		NETWORK.registerType(LayerClosePacket.class, LayerClosePacket::new);
-		NETWORK.registerType(LayerOpenPacket.class, LayerOpenPacket::new);
-		NETWORK.registerType(OpenGuiPacket.class, OpenGuiPacket::new);
-		NETWORK.registerType(ControlSyncPacket.class, ControlSyncPacket::new);
-		CONFIG_HANDLER = new ConfigEventHandler(FabricLoader.getInstance().getConfigDir().toFile(), LOGGER);
-		ClientTickEvents.START_CLIENT_TICK.register(GuiEventHandler::onTick);
-		FAKE_DIMENSION = DimensionType.create(
-				OptionalLong.empty(),
-				true,
-				false,
-				false,
-				false,
-				1,
-				false,
-				true,
-				true,
-				false,
-				false,
-				-64,
-				384,
-				384,
-				BlockTags.INFINIBURN_OVERWORLD,
-				DimensionType.OVERWORLD_EFFECTS,
-				0.0F
-		);
-		ArgumentTypes.register(
-				"names",
-				StringArrayArgumentType.class,
-				new EmptyArgumentSerializer<>(() -> StringArrayArgumentType.stringArray())
-		);
-
-	}
+    
+    private static final ICreativeLoader LOADER = new CreativeFabricLoader();
+    public static final String MODID = "creativecore";
+    public static final Logger LOGGER = LogManager.getLogger(CreativeCore.MODID);
+    public static final CreativeNetwork NETWORK = new CreativeNetwork("1.0", LOGGER, new ResourceLocation(CreativeCore.MODID, "main"));
+    public static final CreativeCoreConfig CONFIG = new CreativeCoreConfig();
+    public static final ResourceLocation FAKE_WORLD_LOCATION = new ResourceLocation(MODID, "fake");
+    public static ResourceKey<Level> FAKE_DIMENSION_NAME = ResourceKey.create(Registry.DIMENSION_REGISTRY, FAKE_WORLD_LOCATION);
+    public static final GuiCreatorBasic CONFIG_OPEN = GuiCreator
+            .register("config", new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(CreativeConfigRegistry.ROOT, EnvType.SERVER)));
+    
+    public static final GuiCreatorBasic CONFIG_CLIENT_OPEN = GuiCreator
+            .register("clientconfig", new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(CreativeConfigRegistry.ROOT, EnvType.CLIENT)));
+    public static final GuiCreatorBasic CONFIG_CLIENT_SYNC_OPEN = GuiCreator
+            .register("clientsyncconfig", new GuiCreatorBasic((player, nbt) -> new ClientSyncGuiLayer(CreativeConfigRegistry.ROOT)));
+    public static ConfigEventHandler CONFIG_HANDLER;
+    public static DimensionType FAKE_DIMENSION;
+    public static MenuType<ContainerIntegration> GUI_CONTAINER;
+    
+    public CreativeCore() {
+        ServerLifecycleEvents.SERVER_STARTING.register(this::server);
+    }
+    
+    private void server(MinecraftServer server) {
+        server.getCommands().getDispatcher().register(Commands.literal("cmdconfig").executes((CommandContext<CommandSourceStack> x) -> {
+            CONFIG_OPEN.open(new CompoundTag(), x.getSource().getPlayerOrException());
+            return 0;
+        }));
+    }
+    
+    @Override
+    public void onInitialize() {
+        
+        GUI_CONTAINER = ScreenHandlerRegistry
+                .registerSimple(new ResourceLocation(CreativeCore.MODID, "container"), new ScreenHandlerRegistry.SimpleClientHandlerFactory<ContainerIntegration>() {
+                    @Override
+                    public ContainerIntegration create(int syncId, Inventory inventory) {
+                        return new ContainerIntegration(GUI_CONTAINER, syncId, inventory.player);
+                    }
+                });
+        NETWORK.registerType(ConfigurationChangePacket.class, ConfigurationChangePacket::new);
+        NETWORK.registerType(ConfigurationClientPacket.class, ConfigurationClientPacket::new);
+        NETWORK.registerType(ConfigurationPacket.class, ConfigurationPacket::new);
+        NETWORK.registerType(LayerClosePacket.class, LayerClosePacket::new);
+        NETWORK.registerType(LayerOpenPacket.class, LayerOpenPacket::new);
+        NETWORK.registerType(OpenGuiPacket.class, OpenGuiPacket::new);
+        NETWORK.registerType(ControlSyncPacket.class, ControlSyncPacket::new);
+        CONFIG_HANDLER = new ConfigEventHandler(FabricLoader.getInstance().getConfigDir().toFile(), LOGGER);
+        ClientTickEvents.START_CLIENT_TICK.register(GuiEventHandler::onTick);
+        FAKE_DIMENSION = DimensionType.create(OptionalLong
+                .empty(), true, false, false, false, 1, false, true, true, false, false, -64, 384, 384, BlockTags.INFINIBURN_OVERWORLD, DimensionType.OVERWORLD_EFFECTS, 0.0F);
+        ArgumentTypes.register("names", StringArrayArgumentType.class, new EmptyArgumentSerializer<>(() -> StringArrayArgumentType.stringArray()));
+        
+    }
+    
+    public static ICreativeLoader loader() {
+        return LOADER;
+    }
 }
