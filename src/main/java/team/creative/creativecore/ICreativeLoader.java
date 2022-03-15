@@ -19,6 +19,8 @@ public interface ICreativeLoader {
     
     public void registerClientRender(Runnable run);
     
+    public void registerClientStarted(Runnable run);
+    
     public void registerLoadLevel(Consumer<LevelAccessor> consumer);
     
     public <T> void registerListener(Consumer<T> consumer);
