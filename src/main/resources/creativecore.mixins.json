@@ -1,17 +1,15 @@
 {
-  "required": true,
-  "package": "team.creative.creativecore.mixin",
-  "compatibilityLevel": "JAVA_17",
-  "refmap": "creativecore.mixins.refmap.json",
-  "mixins": [
-    "BufferBuilderAccessor",
-    "MinecraftAccessor",
-    "MouseHandlerAccessor",
-    "StringSplitterAccessor",
-    "VertexFormatAccessor"
-  ],
-  "client": [
-    "BlockInfoMixin"
-  ],
-  "minVersion": "0.8"
+	"required": true,
+	"package": "team.creative.creativecore.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"refmap": "CreativeCoreFabric-refmap.json",
+	"mixins": [
+		"BufferBuilderAccessor",
+		"MouseHandlerAccessor",
+		"StringSplitterAccessor",
+		"VertexFormatAccessor"
+	],
+	"client": [
+	],
+	"minVersion": "0.8"
 }

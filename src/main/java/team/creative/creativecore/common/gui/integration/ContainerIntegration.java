@@ -32,7 +32,7 @@ public class ContainerIntegration extends AbstractContainerMenu implements IGuiI
         super(type, id);
         this.player = player;
     }
-
+    
     @Override
     public void broadcastChanges() {
         super.broadcastChanges();

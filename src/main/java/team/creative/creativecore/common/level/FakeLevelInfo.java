@@ -1,6 +1,5 @@
 package team.creative.creativecore.common.level;
 
-import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Difficulty;
 import net.minecraft.world.level.GameRules;

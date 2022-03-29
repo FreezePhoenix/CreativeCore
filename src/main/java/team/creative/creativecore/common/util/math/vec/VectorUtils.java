@@ -39,7 +39,7 @@ public class VectorUtils {
     public static void set(Vector3f vec, float value, Axis axis) {
         switch (axis) {
         case X:
-            vec.set(value,vec.y(),vec.z());
+            vec.set(value, vec.y(), vec.z());
             break;
         case Y:
             vec.set(vec.x(), value, vec.z());

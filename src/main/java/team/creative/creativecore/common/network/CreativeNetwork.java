@@ -1,5 +1,10 @@
 package team.creative.creativecore.common.network;
 
+import java.util.HashMap;
+import java.util.function.Supplier;
+
+import org.apache.logging.log4j.Logger;
+
 import io.netty.buffer.Unpooled;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -15,79 +20,68 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
 import net.minecraft.world.entity.player.Player;
-import org.apache.logging.log4j.Logger;
-
-import java.util.HashMap;
-import java.util.function.Supplier;
 
 public class CreativeNetwork {
-	public final ResourceLocation CHANNEL;
-	private final HashMap<Class<? extends CreativePacket>, CreativeNetworkPacket> packetTypes = new HashMap<>();
-	private final HashMap<Class<? extends CreativePacket>, ResourceLocation> packetTypeChannels = new HashMap<>();
-	private final Logger logger;
-	private final String version;
-
-	private int id = 0;
-
-	public CreativeNetwork(String version, Logger logger, ResourceLocation location) {
-		this.version = version;
-		this.logger = logger;
-		this.CHANNEL = location;
-		this.logger.debug("Created network " + location + "");
-	}
-
-	@Environment(EnvType.CLIENT)
-	private static Player getClientPlayer() {
-		return Minecraft.getInstance().player;
-	}
-
-	public <T extends CreativePacket> void registerType(Class<T> classType, Supplier<T> supplier) {
-		int CURR_ID = id++;
-		ResourceLocation CURR_CHANNEL = new ResourceLocation(CHANNEL.getNamespace(), CHANNEL.getPath() + CURR_ID);
-		CreativeNetworkPacket<T> packet_handler = new CreativeNetworkPacket<>(classType, supplier);
-		ServerPlayNetworking.registerGlobalReceiver(
-				CURR_CHANNEL,
-				(MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) -> {
-					var message = packet_handler.read(buf);
-					server.execute(() -> {
-						message.execute(handler.getPlayer());
-					});
-				}
-		);
-		ClientPlayNetworking.registerGlobalReceiver(
-				CURR_CHANNEL,
-				(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) -> {
-					var message = packet_handler.read(buf);
-					client.execute(() -> {
-						message.execute(client.player);
-					});
-				}
-		);
-		packetTypes.put(classType, packet_handler);
-		packetTypeChannels.put(classType, CURR_CHANNEL);
-	}
-
-	public CreativeNetworkPacket getPacketType(Class<? extends CreativePacket> clazz) {
-		return packetTypes.get(clazz);
-	}
-
-	public void sendToServer(CreativePacket message) {
-		var BUFF = new FriendlyByteBuf(Unpooled.buffer());
-		packetTypes.get(message.getClass()).write(message, BUFF);
-		ClientPlayNetworking.send(packetTypeChannels.get(message.getClass()), BUFF);
-	}
-
-	public void sendToClient(CreativePacket message, ServerPlayer player) {
-		var BUFF = new FriendlyByteBuf(Unpooled.buffer());
-		packetTypes.get(message.getClass()).write(message, BUFF);
-		ServerPlayNetworking.send(player, packetTypeChannels.get(message.getClass()), BUFF);
-	}
-
-	public void sendToClientAll(MinecraftServer server, CreativePacket message) {
-		var BUFF = new FriendlyByteBuf(Unpooled.buffer());
-		packetTypes.get(message.getClass()).write(message, BUFF);
-		for (ServerPlayer player : PlayerLookup.all(server)) {
-			ServerPlayNetworking.send(player, packetTypeChannels.get(message.getClass()), BUFF);
-		}
-	}
+    public final ResourceLocation CHANNEL;
+    private final HashMap<Class<? extends CreativePacket>, CreativeNetworkPacket> packetTypes = new HashMap<>();
+    private final HashMap<Class<? extends CreativePacket>, ResourceLocation> packetTypeChannels = new HashMap<>();
+    private final Logger logger;
+    
+    private int id = 0;
+    
+    public CreativeNetwork(String version, Logger logger, ResourceLocation location) {
+        this.logger = logger;
+        this.CHANNEL = location;
+        this.logger.debug("Created network " + location + "");
+    }
+    
+    @Environment(EnvType.CLIENT)
+    private static Player getClientPlayer() {
+        return Minecraft.getInstance().player;
+    }
+    
+    public <T extends CreativePacket> void registerType(Class<T> classType, Supplier<T> supplier) {
+        int CURR_ID = id++;
+        ResourceLocation CURR_CHANNEL = new ResourceLocation(CHANNEL.getNamespace(), CHANNEL.getPath() + CURR_ID);
+        CreativeNetworkPacket<T> packet_handler = new CreativeNetworkPacket<>(classType, supplier);
+        ServerPlayNetworking
+                .registerGlobalReceiver(CURR_CHANNEL, (MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) -> {
+                    var message = packet_handler.read(buf);
+                    server.execute(() -> {
+                        message.execute(handler.getPlayer());
+                    });
+                });
+        ClientPlayNetworking.registerGlobalReceiver(CURR_CHANNEL, (Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) -> {
+            var message = packet_handler.read(buf);
+            client.execute(() -> {
+                message.execute(client.player);
+            });
+        });
+        packetTypes.put(classType, packet_handler);
+        packetTypeChannels.put(classType, CURR_CHANNEL);
+    }
+    
+    public CreativeNetworkPacket getPacketType(Class<? extends CreativePacket> clazz) {
+        return packetTypes.get(clazz);
+    }
+    
+    public void sendToServer(CreativePacket message) {
+        var BUFF = new FriendlyByteBuf(Unpooled.buffer());
+        packetTypes.get(message.getClass()).write(message, BUFF);
+        ClientPlayNetworking.send(packetTypeChannels.get(message.getClass()), BUFF);
+    }
+    
+    public void sendToClient(CreativePacket message, ServerPlayer player) {
+        var BUFF = new FriendlyByteBuf(Unpooled.buffer());
+        packetTypes.get(message.getClass()).write(message, BUFF);
+        ServerPlayNetworking.send(player, packetTypeChannels.get(message.getClass()), BUFF);
+    }
+    
+    public void sendToClientAll(MinecraftServer server, CreativePacket message) {
+        var BUFF = new FriendlyByteBuf(Unpooled.buffer());
+        packetTypes.get(message.getClass()).write(message, BUFF);
+        for (ServerPlayer player : PlayerLookup.all(server)) {
+            ServerPlayNetworking.send(player, packetTypeChannels.get(message.getClass()), BUFF);
+        }
+    }
 }

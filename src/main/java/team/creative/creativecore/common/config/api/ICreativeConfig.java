@@ -1,9 +1,9 @@
 package team.creative.creativecore.common.config.api;
 
-import net.fabricmc.api.EnvType;
+import team.creative.creativecore.Side;
 
 public interface ICreativeConfig {
-
-	void configured(EnvType side);
-
+    
+    void configured(Side side);
+    
 }
