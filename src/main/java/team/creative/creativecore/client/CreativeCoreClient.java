@@ -14,10 +14,14 @@ import net.minecraft.commands.Commands;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import team.creative.creativecore.CreativeCore;
+import team.creative.creativecore.Side;
+import team.creative.creativecore.common.config.gui.ConfigGuiLayer;
+import team.creative.creativecore.common.config.holder.CreativeConfigRegistry;
 import team.creative.creativecore.common.gui.IScaleableGuiScreen;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
 import team.creative.creativecore.common.gui.integration.ContainerScreenIntegration;
 import team.creative.creativecore.common.gui.integration.GuiEventHandler;
+import team.creative.creativecore.common.gui.integration.GuiScreenIntegration;
 import team.creative.creativecore.common.gui.style.GuiStyle;
 
 public class CreativeCoreClient implements ClientModInitializer {
@@ -36,7 +40,7 @@ public class CreativeCoreClient implements ClientModInitializer {
     
     public static void commands(CommandDispatcher<CommandSourceStack> dispatcher, boolean dedicated) {
         dispatcher.register(Commands.literal("cmdclientconfig").executes((CommandContext<CommandSourceStack> x) -> {
-            CreativeCore.CONFIG_CLIENT_OPEN.open(x.getSource().getPlayerOrException());
+            GuiEventHandler.queueScreen(new GuiScreenIntegration(new ConfigGuiLayer(CreativeConfigRegistry.ROOT, Side.CLIENT)));
             return 0;
         }));
     }
