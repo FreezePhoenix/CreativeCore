@@ -17,6 +17,7 @@ import team.creative.creativecore.CreativeCore;
 import team.creative.creativecore.common.gui.IScaleableGuiScreen;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
 import team.creative.creativecore.common.gui.integration.ContainerScreenIntegration;
+import team.creative.creativecore.common.gui.integration.GuiEventHandler;
 import team.creative.creativecore.common.gui.style.GuiStyle;
 
 public class CreativeCoreClient implements ClientModInitializer {
@@ -42,6 +43,7 @@ public class CreativeCoreClient implements ClientModInitializer {
     
     @Override
     public void onInitializeClient() {
+        ClientTickEvents.START_CLIENT_TICK.register(GuiEventHandler::onTick);
         ClientLifecycleEvents.CLIENT_STARTED.register(client -> GuiStyle.reload());
         ScreenRegistry.register(CreativeCore.GUI_CONTAINER, (ContainerIntegration container, Inventory inventory, Component p_create_3_) -> {
             return new ContainerScreenIntegration(container, inventory);
