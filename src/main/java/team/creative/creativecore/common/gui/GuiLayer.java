@@ -13,20 +13,23 @@ import team.creative.creativecore.common.util.math.geo.Rect;
 
 public abstract class GuiLayer extends GuiParent {
     
-    public final GuiStyle style;
+    @OnlyIn(Dist.CLIENT)
+    public GuiStyle style;
     public final Rect rect;
     private final GuiSyncHolderLayer sync = new GuiSyncHolderLayer(this);
     
     public GuiLayer(String name) {
         super(name, GuiFlow.STACK_X);
         this.rect = new Rect(0, 0, 0, 0);
-        this.style = GuiStyle.getStyle(name);
+        if (FMLEnvironment.dist.isClient())
+            this.style = GuiStyle.getStyle(name);
     }
     
     public GuiLayer(String name, int width, int height) {
         super(name, GuiFlow.STACK_X, width, height);
         this.rect = new Rect(0, 0, width, height);
-        this.style = GuiStyle.getStyle(name);
+        if (FMLEnvironment.dist.isClient())
+            this.style = GuiStyle.getStyle(name);
     }
     
     public GuiSyncHolderLayer getSyncHolder() {
@@ -56,6 +59,9 @@ public abstract class GuiLayer extends GuiParent {
     
     @Override
     public void reflow() {
+        if (FMLEnvironment.dist.isDedicatedServer())
+            return;
+        
         if (!hasPreferredDimensions) {
             rect.maxX = preferredWidth() + getContentOffset() * 2;
             rect.maxY = preferredHeight() + getContentOffset() * 2;
@@ -84,6 +90,7 @@ public abstract class GuiLayer extends GuiParent {
     }
     
     @Override
+    @OnlyIn(Dist.CLIENT)
     public GuiStyle getStyle() {
         return style;
     }

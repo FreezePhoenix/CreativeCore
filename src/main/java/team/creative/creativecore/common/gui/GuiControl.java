@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.language.I18n;
 import net.minecraft.client.resources.sounds.SimpleSoundInstance;
 import net.minecraft.client.resources.sounds.SoundInstance;
 import net.minecraft.network.chat.Component;
@@ -17,6 +16,7 @@ import team.creative.creativecore.common.gui.event.GuiTooltipEvent;
 import team.creative.creativecore.common.gui.style.ControlFormatting;
 import team.creative.creativecore.common.gui.style.GuiStyle;
 import team.creative.creativecore.common.util.math.geo.Rect;
+import team.creative.creativecore.common.util.mc.LanguageUtils;
 import team.creative.creativecore.common.util.text.TextBuilder;
 
 import java.util.List;
@@ -167,6 +167,7 @@ public abstract class GuiControl {
         throw new RuntimeException("Invalid layer control");
     }
     
+    @OnlyIn(Dist.CLIENT)
     public GuiStyle getStyle() {
         if (parent instanceof GuiControl)
             return ((GuiControl) parent).getStyle();
@@ -282,6 +283,7 @@ public abstract class GuiControl {
     
     public abstract ControlFormatting getControlFormatting();
     
+    @OnlyIn(Dist.CLIENT)
     public int getContentOffset() {
         return getStyle().getContentOffset(getControlFormatting());
     }
@@ -364,5 +366,30 @@ public abstract class GuiControl {
     
     public Player getPlayer() {
         return parent.getPlayer();
+    }
+    
+    // UTILS
+    
+    public static String translate(String text, Object... parameters) {
+        return LanguageUtils.translate(text, parameters);
+    }
+    
+    public static String translateOrDefault(String text, String defaultText) {
+        return LanguageUtils.translateOr(text, defaultText);
+    }
+    
+    @OnlyIn(value = Dist.CLIENT)
+    public static void playSound(SoundInstance sound) {
+        Minecraft.getInstance().getSoundManager().play(sound);
+    }
+    
+    @OnlyIn(value = Dist.CLIENT)
+    public static void playSound(SoundEvent event) {
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, 1.0F));
+    }
+    
+    @OnlyIn(value = Dist.CLIENT)
+    public static void playSound(SoundEvent event, float volume, float pitch) {
+        Minecraft.getInstance().getSoundManager().play(SimpleSoundInstance.forUI(event, pitch, volume));
     }
 }
