@@ -28,12 +28,16 @@ import net.minecraft.world.level.dimension.DimensionType;
 import team.creative.creativecore.common.config.event.ConfigEventHandler;
 import team.creative.creativecore.common.config.gui.ClientSyncGuiLayer;
 import team.creative.creativecore.common.config.gui.ConfigGuiLayer;
+import team.creative.creativecore.common.config.gui.GuiInfoStackButton;
+import team.creative.creativecore.common.config.gui.GuiPlayerSelectorButton;
 import team.creative.creativecore.common.config.holder.CreativeConfigRegistry;
 import team.creative.creativecore.common.config.sync.ConfigurationChangePacket;
 import team.creative.creativecore.common.config.sync.ConfigurationClientPacket;
 import team.creative.creativecore.common.config.sync.ConfigurationPacket;
+import team.creative.creativecore.common.gui.dialog.GuiDialogHandler;
 import team.creative.creativecore.common.gui.handler.GuiCreator;
 import team.creative.creativecore.common.gui.handler.GuiCreator.GuiCreatorBasic;
+import team.creative.creativecore.common.gui.handler.GuiLayerHandler;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
 import team.creative.creativecore.common.gui.packet.ControlSyncPacket;
 import team.creative.creativecore.common.gui.packet.LayerClosePacket;
@@ -94,6 +98,9 @@ public class CreativeCore implements ModInitializer {
                 .empty(), true, false, false, false, 1, false, true, true, false, false, -64, 384, 384, BlockTags.INFINIBURN_OVERWORLD, DimensionType.OVERWORLD_EFFECTS, 0.0F);
         ArgumentTypes.register("names", StringArrayArgumentType.class, new EmptyArgumentSerializer<>(() -> StringArrayArgumentType.stringArray()));
         
+        GuiLayerHandler.REGISTRY.register("info", GuiInfoStackButton.INFO_LAYER);
+        GuiLayerHandler.REGISTRY.register("player", GuiPlayerSelectorButton.PLAYER_LAYER);
+        GuiLayerHandler.REGISTRY.register("dialog", GuiDialogHandler.DIALOG_HANDLER);
     }
     
     public static ICreativeLoader loader() {
