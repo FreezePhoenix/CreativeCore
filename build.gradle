@@ -3,11 +3,9 @@ plugins {
     id 'maven-publish'
 }
 
-version = project.mod_version
-group = project.maven_group
+group = "team.creative"
 
 repositories {
-
     maven {
         url = "https://api.modrinth.com/maven"
     }
@@ -16,6 +14,11 @@ repositories {
     // Loom adds the essential maven repositories to download Minecraft and libraries from automatically.
     // See https://docs.gradle.org/current/userguide/declaring_repositories.html
     // for more information about repositories.
+}
+
+loom.runConfigs.configureEach {
+    ideConfigGenerated = true
+    vmArgs "-Dfabric.debug.replaceVersion=creativecore:${project(':CreativeCoreFabric').version}"
 }
 
 dependencies {
@@ -56,17 +59,21 @@ java {
     if (JavaVersion.current() < javaVersion) {
         toolchain.languageVersion = JavaLanguageVersion.of(targetJavaVersion)
     }
-    archivesBaseName = project.archives_base_name
-    // Loom will automatically attach sourcesJar to a RemapSourcesJar task and to the "build" task
-    // if it is present.
-    // If you remove this line, sources will not be generated.
-    withSourcesJar()
+    archivesBaseName = project.modname
+}
+
+remapJar {
+	archiveFileName = project.modname + "_FABRIC_v" + project.version + "_mc" + project.minecraft_version + ".jar"
 }
 
 jar {
     from("LICENSE") {
-        rename { "${it}_${project.archivesBaseName}" }
+        rename { "${it}" }
     }
+}
+
+loom.mixin {
+    defaultRefmapName = "creativecore.mixin-refmap.json"
 }
 
 // configure the maven publication
