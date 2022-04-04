@@ -8,7 +8,6 @@ import org.apache.logging.log4j.Logger;
 import com.mojang.brigadier.context.CommandContext;
 
 import net.fabricmc.api.ModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.fabricmc.loader.api.FabricLoader;
@@ -36,7 +35,6 @@ import team.creative.creativecore.common.config.sync.ConfigurationPacket;
 import team.creative.creativecore.common.gui.handler.GuiCreator;
 import team.creative.creativecore.common.gui.handler.GuiCreator.GuiCreatorBasic;
 import team.creative.creativecore.common.gui.integration.ContainerIntegration;
-import team.creative.creativecore.common.gui.integration.GuiEventHandler;
 import team.creative.creativecore.common.gui.packet.ControlSyncPacket;
 import team.creative.creativecore.common.gui.packet.LayerClosePacket;
 import team.creative.creativecore.common.gui.packet.LayerOpenPacket;
@@ -45,6 +43,7 @@ import team.creative.creativecore.common.network.CreativeNetwork;
 import team.creative.creativecore.common.util.argument.StringArrayArgumentType;
 
 public class CreativeCore implements ModInitializer {
+    
     private static final ICreativeLoader LOADER = new CreativeFabricLoader();
     public static final String MODID = "creativecore";
     public static final Logger LOGGER = LogManager.getLogger(CreativeCore.MODID);
@@ -54,7 +53,7 @@ public class CreativeCore implements ModInitializer {
     public static ResourceKey<Level> FAKE_DIMENSION_NAME = ResourceKey.create(Registry.DIMENSION_REGISTRY, FAKE_WORLD_LOCATION);
     public static final GuiCreatorBasic CONFIG_OPEN = GuiCreator
             .register("config", new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(CreativeConfigRegistry.ROOT, Side.SERVER)));
-
+    
     public static final GuiCreatorBasic CONFIG_CLIENT_OPEN = GuiCreator
             .register("clientconfig", new GuiCreatorBasic((player, nbt) -> new ConfigGuiLayer(CreativeConfigRegistry.ROOT, Side.CLIENT)));
     public static final GuiCreatorBasic CONFIG_CLIENT_SYNC_OPEN = GuiCreator
@@ -62,18 +61,18 @@ public class CreativeCore implements ModInitializer {
     public static ConfigEventHandler CONFIG_HANDLER;
     public static DimensionType FAKE_DIMENSION;
     public static MenuType<ContainerIntegration> GUI_CONTAINER;
-
+    
     public CreativeCore() {
         ServerLifecycleEvents.SERVER_STARTING.register(this::server);
     }
-
+    
     private void server(MinecraftServer server) {
         server.getCommands().getDispatcher().register(Commands.literal("cmdconfig").executes((CommandContext<CommandSourceStack> x) -> {
             CONFIG_OPEN.open(new CompoundTag(), x.getSource().getPlayerOrException());
             return 0;
         }));
     }
-
+    
     @Override
     public void onInitialize() {
         GUI_CONTAINER = ScreenHandlerRegistry
@@ -94,9 +93,9 @@ public class CreativeCore implements ModInitializer {
         FAKE_DIMENSION = DimensionType.create(OptionalLong
                 .empty(), true, false, false, false, 1, false, true, true, false, false, -64, 384, 384, BlockTags.INFINIBURN_OVERWORLD, DimensionType.OVERWORLD_EFFECTS, 0.0F);
         ArgumentTypes.register("names", StringArrayArgumentType.class, new EmptyArgumentSerializer<>(() -> StringArrayArgumentType.stringArray()));
-
+        
     }
-
+    
     public static ICreativeLoader loader() {
         return LOADER;
     }
