@@ -2,9 +2,10 @@ package team.creative.creativecore.common.util.mc;
 
 import java.util.IllegalFormatException;
 
+import net.fabricmc.api.EnvType;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.resources.language.I18n;
 import net.minecraft.locale.Language;
-import net.minecraftforge.fml.loading.FMLEnvironment;
 
 public class LanguageUtils {
     
@@ -13,7 +14,7 @@ public class LanguageUtils {
     }
     
     public static String translate(String name) {
-        if (FMLEnvironment.dist.isClient())
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
             return I18n.get(name);
         return Language.getInstance().getOrDefault(name);
     }
@@ -26,7 +27,7 @@ public class LanguageUtils {
     }
     
     public static String translate(String name, Object... args) {
-        if (FMLEnvironment.dist.isClient())
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
             return I18n.get(name, args);
         try {
             return String.format(Language.getInstance().getOrDefault(name), args);

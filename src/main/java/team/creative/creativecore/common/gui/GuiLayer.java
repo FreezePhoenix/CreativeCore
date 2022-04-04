@@ -2,6 +2,7 @@ package team.creative.creativecore.common.gui;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.Options;
 import team.creative.creativecore.common.gui.flow.GuiFlow;
@@ -13,7 +14,7 @@ import team.creative.creativecore.common.util.math.geo.Rect;
 
 public abstract class GuiLayer extends GuiParent {
     
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public GuiStyle style;
     public final Rect rect;
     private final GuiSyncHolderLayer sync = new GuiSyncHolderLayer(this);
@@ -21,14 +22,14 @@ public abstract class GuiLayer extends GuiParent {
     public GuiLayer(String name) {
         super(name, GuiFlow.STACK_X);
         this.rect = new Rect(0, 0, 0, 0);
-        if (FMLEnvironment.dist.isClient())
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
             this.style = GuiStyle.getStyle(name);
     }
     
     public GuiLayer(String name, int width, int height) {
         super(name, GuiFlow.STACK_X, width, height);
         this.rect = new Rect(0, 0, width, height);
-        if (FMLEnvironment.dist.isClient())
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
             this.style = GuiStyle.getStyle(name);
     }
     
@@ -59,7 +60,7 @@ public abstract class GuiLayer extends GuiParent {
     
     @Override
     public void reflow() {
-        if (FMLEnvironment.dist.isDedicatedServer())
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.SERVER)
             return;
         
         if (!hasPreferredDimensions) {
@@ -90,7 +91,7 @@ public abstract class GuiLayer extends GuiParent {
     }
     
     @Override
-    @OnlyIn(Dist.CLIENT)
+    @Environment(EnvType.CLIENT)
     public GuiStyle getStyle() {
         return style;
     }

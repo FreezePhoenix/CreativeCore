@@ -43,36 +43,42 @@ import team.creative.creativecore.common.config.sync.ConfigurationPacket;
 import team.creative.creativecore.common.util.mc.JsonUtils;
 
 public class ConfigEventHandler {
-
+    
     private final DecimalFormat df = generateFormat();
     private final File CONFIG_DIRECTORY;
     private final Logger LOGGER;
     private final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
+    
     private static class ClientHandler extends ServerHandler {
         @Environment(EnvType.CLIENT)
         @Override
         public void register(ConfigEventHandler handler) {
             ClientLifecycleEvents.CLIENT_STARTED.register(new Handler(handler));
         }
+        
         @Environment(EnvType.CLIENT)
         private static class Handler implements ClientLifecycleEvents.ClientStarted {
             private final ConfigEventHandler configEventHandler;
+            
             Handler(ConfigEventHandler configEventHandler) {
                 this.configEventHandler = configEventHandler;
             }
+            
             @Override
             public void onClientStarted(Minecraft client) {
                 configEventHandler.load(Side.CLIENT);
             }
         }
     }
-
+    
     private static class ServerHandler {
         public static ServerHandler INSTANCE = new ClientHandler();
+        
         public void register(ConfigEventHandler handler) {
             ServerLifecycleEvents.SERVER_STARTING.register(server -> handler.load(Side.SERVER));
         }
     }
+    
     public ConfigEventHandler(File CONFIG_DIRECTORY, Logger LOGGER) {
         this.CONFIG_DIRECTORY = CONFIG_DIRECTORY;
         this.LOGGER = LOGGER;
@@ -142,7 +148,7 @@ public class ConfigEventHandler {
     }
     
     public void playerLoggedIn(ServerGamePacketListenerImpl handler, PacketSender sender, MinecraftServer server) {
-        if (server.isSingleplayer() || !isOwner(server)) {
+        if (!server.isSingleplayer() || !isOwner(server)) {
             CreativeCore.NETWORK.sendToClient(new ConfigurationClientPacket(CreativeConfigRegistry.ROOT), handler.getPlayer());
             CreativeCore.NETWORK.sendToClient(new ConfigurationPacket(CreativeConfigRegistry.ROOT, false), handler.getPlayer());
         }
