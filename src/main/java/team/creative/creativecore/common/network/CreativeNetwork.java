@@ -26,20 +26,20 @@ public class CreativeNetwork {
     private final HashMap<Class<? extends CreativePacket>, CreativeNetworkPacket> packetTypes = new HashMap<>();
     private final HashMap<Class<? extends CreativePacket>, ResourceLocation> packetTypeChannels = new HashMap<>();
     private final Logger logger;
-
+    
     private int id = 0;
-
+    
     public CreativeNetwork(String version, Logger logger, ResourceLocation location) {
         this.logger = logger;
         this.CHANNEL = location;
         this.logger.debug("Created network " + location + "");
     }
-
+    
     @Environment(EnvType.CLIENT)
     private static Player getClientPlayer() {
         return Minecraft.getInstance().player;
     }
-
+    
     private static class ClientHandler extends ServerHandler {
         @Environment(EnvType.CLIENT)
         @Override
@@ -47,12 +47,15 @@ public class CreativeNetwork {
             super.register(CURR_CHANNEL, packet_handler);
             ClientPlayNetworking.registerGlobalReceiver(CURR_CHANNEL, new Handler<T>(packet_handler));
         }
+        
         @Environment(EnvType.CLIENT)
         private static class Handler<T extends CreativePacket> implements ClientPlayNetworking.PlayChannelHandler {
             private final CreativeNetworkPacket<T> packet_handler;
+            
             Handler(CreativeNetworkPacket<T> packet) {
                 packet_handler = packet;
             }
+            
             @Override
             public void receive(Minecraft client, ClientPacketListener handler, FriendlyByteBuf buf, PacketSender responseSender) {
                 var message = packet_handler.read(buf);
@@ -62,19 +65,21 @@ public class CreativeNetwork {
             }
         }
     }
-
+    
     private static class ServerHandler {
         public static ServerHandler INSTANCE = new ClientHandler();
+        
         public <T extends CreativePacket> void register(ResourceLocation CURR_CHANNEL, CreativeNetworkPacket<T> packet_handler) {
-            ServerPlayNetworking.registerGlobalReceiver(CURR_CHANNEL, (MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) -> {
-                var message = packet_handler.read(buf);
-                server.execute(() -> {
-                    message.execute(handler.getPlayer());
-                });
-            });
+            ServerPlayNetworking
+                    .registerGlobalReceiver(CURR_CHANNEL, (MinecraftServer server, ServerPlayer player, ServerGamePacketListenerImpl handler, FriendlyByteBuf buf, PacketSender responseSender) -> {
+                        var message = packet_handler.read(buf);
+                        server.execute(() -> {
+                            message.execute(handler.getPlayer());
+                        });
+                    });
         }
     }
-
+    
     public <T extends CreativePacket> void registerType(Class<T> classType, Supplier<T> supplier) {
         int CURR_ID = id++;
         ResourceLocation CURR_CHANNEL = new ResourceLocation(CHANNEL.getNamespace(), CHANNEL.getPath() + CURR_ID);

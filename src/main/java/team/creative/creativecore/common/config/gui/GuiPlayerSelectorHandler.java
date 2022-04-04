@@ -1,5 +1,8 @@
 package team.creative.creativecore.common.config.gui;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.world.level.GameType;
@@ -9,11 +12,13 @@ import team.creative.creativecore.common.gui.controls.simple.GuiStateButton;
 import team.creative.creativecore.common.gui.controls.simple.GuiTextfield;
 import team.creative.creativecore.common.gui.event.GuiControlChangedEvent;
 import team.creative.creativecore.common.util.player.PlayerSelector;
-import team.creative.creativecore.common.util.player.PlayerSelector.*;
+import team.creative.creativecore.common.util.player.PlayerSelector.PlayerSelectorAnd;
+import team.creative.creativecore.common.util.player.PlayerSelector.PlayerSelectorCommandSelector;
+import team.creative.creativecore.common.util.player.PlayerSelector.PlayerSelectorGamemode;
+import team.creative.creativecore.common.util.player.PlayerSelector.PlayerSelectorLevel;
+import team.creative.creativecore.common.util.player.PlayerSelector.PlayerSelectorNot;
+import team.creative.creativecore.common.util.player.PlayerSelector.PlayerSelectorOr;
 import team.creative.creativecore.common.util.registry.NamedHandlerRegistry;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @Environment(EnvType.CLIENT)
 public abstract class GuiPlayerSelectorHandler<T extends PlayerSelector> {

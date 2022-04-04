@@ -1,9 +1,20 @@
 package team.creative.creativecore.common.gui.controls.simple;
 
+import java.util.Objects;
+import java.util.function.BiFunction;
+import java.util.function.Predicate;
+
+import javax.annotation.Nullable;
+
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
-import com.mojang.blaze3d.vertex.*;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.DefaultVertexFormat;
+import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.Tesselator;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.SharedConstants;
@@ -23,11 +34,6 @@ import team.creative.creativecore.common.gui.event.GuiControlChangedEvent;
 import team.creative.creativecore.common.gui.style.ControlFormatting;
 import team.creative.creativecore.common.gui.style.GuiStyle;
 import team.creative.creativecore.common.util.math.geo.Rect;
-
-import javax.annotation.Nullable;
-import java.util.Objects;
-import java.util.function.BiFunction;
-import java.util.function.Predicate;
 
 public class GuiTextfield extends GuiFocusControl {
     

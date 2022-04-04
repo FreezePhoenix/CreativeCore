@@ -1,5 +1,8 @@
 package team.creative.creativecore.common.util.ingredient;
 
+import java.util.Iterator;
+import java.util.Set;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Registry;
@@ -22,9 +25,6 @@ import team.creative.creativecore.common.util.text.TextBuilder;
 import team.creative.creativecore.common.util.text.TextListBuilder;
 import team.creative.creativecore.common.util.text.TextMapBuilder;
 import team.creative.creativecore.common.util.type.list.PairList;
-
-import java.util.Iterator;
-import java.util.Set;
 
 @Environment(EnvType.CLIENT)
 public abstract class GuiCreativeIngredientHandler {

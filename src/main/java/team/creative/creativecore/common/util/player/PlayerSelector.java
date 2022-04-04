@@ -1,9 +1,12 @@
 package team.creative.creativecore.common.util.player;
 
+import java.lang.reflect.InvocationTargetException;
+
 import com.google.gson.JsonElement;
 import com.google.gson.JsonPrimitive;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.commands.arguments.EntityArgument;
@@ -20,8 +23,6 @@ import team.creative.creativecore.common.config.holder.ConfigKey.ConfigKeyField;
 import team.creative.creativecore.common.gui.GuiParent;
 import team.creative.creativecore.common.util.mc.PlayerUtils;
 import team.creative.creativecore.common.util.registry.NamedTypeRegistry;
-
-import java.lang.reflect.InvocationTargetException;
 
 public abstract class PlayerSelector {
     

@@ -1,10 +1,22 @@
 package team.creative.creativecore.common.network.type;
 
+import java.io.DataInput;
+import java.io.IOException;
+import java.lang.reflect.Array;
+import java.lang.reflect.Field;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.UUID;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
 import com.mojang.math.Vector3d;
 import com.mojang.math.Vector3f;
+
 import io.netty.buffer.ByteBufInputStream;
 import io.netty.buffer.ByteBufOutputStream;
 import net.minecraft.CrashReport;
@@ -12,7 +24,11 @@ import net.minecraft.ReportedException;
 import net.minecraft.Util;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
-import net.minecraft.nbt.*;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.nbt.EndTag;
+import net.minecraft.nbt.NbtAccounter;
+import net.minecraft.nbt.Tag;
+import net.minecraft.nbt.TagTypes;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
@@ -27,20 +43,14 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 import team.creative.creativecore.common.util.filter.BiFilter;
 import team.creative.creativecore.common.util.filter.Filter;
-import team.creative.creativecore.common.util.math.vec.*;
+import team.creative.creativecore.common.util.math.vec.Vec1d;
+import team.creative.creativecore.common.util.math.vec.Vec1f;
+import team.creative.creativecore.common.util.math.vec.Vec2d;
+import team.creative.creativecore.common.util.math.vec.Vec2f;
+import team.creative.creativecore.common.util.math.vec.Vec3d;
+import team.creative.creativecore.common.util.math.vec.Vec3f;
 import team.creative.creativecore.common.util.registry.exception.RegistryException;
 import team.creative.creativecore.common.util.text.AdvancedComponent;
-
-import java.io.DataInput;
-import java.io.IOException;
-import java.lang.reflect.Array;
-import java.lang.reflect.Field;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.UUID;
 
 public class NetworkFieldTypes {
     

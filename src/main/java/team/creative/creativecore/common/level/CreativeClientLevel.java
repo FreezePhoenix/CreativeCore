@@ -1,7 +1,12 @@
 package team.creative.creativecore.common.level;
 
+import java.util.List;
+import java.util.Map;
+import java.util.function.Supplier;
+
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+
 import net.minecraft.client.player.AbstractClientPlayer;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
@@ -13,10 +18,6 @@ import net.minecraft.world.level.entity.TransientEntitySectionManager;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.level.storage.WritableLevelData;
 import team.creative.creativecore.client.render.level.IRenderChunkSupplier;
-
-import java.util.List;
-import java.util.Map;
-import java.util.function.Supplier;
 
 public abstract class CreativeClientLevel extends CreativeLevel {
     

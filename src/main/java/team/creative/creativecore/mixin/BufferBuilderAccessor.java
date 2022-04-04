@@ -1,12 +1,13 @@
 package team.creative.creativecore.mixin;
 
-import com.mojang.blaze3d.vertex.BufferBuilder;
-import com.mojang.blaze3d.vertex.VertexFormat;
+import java.nio.ByteBuffer;
+
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-import java.nio.ByteBuffer;
+import com.mojang.blaze3d.vertex.BufferBuilder;
+import com.mojang.blaze3d.vertex.VertexFormat;
 
 @Mixin(BufferBuilder.class)
 public interface BufferBuilderAccessor {

@@ -1,5 +1,15 @@
 package team.creative.creativecore.common.level;
 
+import java.util.concurrent.atomic.AtomicReferenceArray;
+import java.util.function.BooleanSupplier;
+import java.util.function.Consumer;
+
+import javax.annotation.Nullable;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.jetbrains.annotations.NotNull;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
@@ -16,14 +26,6 @@ import net.minecraft.world.level.chunk.ChunkStatus;
 import net.minecraft.world.level.chunk.EmptyLevelChunk;
 import net.minecraft.world.level.chunk.LevelChunk;
 import net.minecraft.world.level.lighting.LevelLightEngine;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.jetbrains.annotations.NotNull;
-
-import javax.annotation.Nullable;
-import java.util.concurrent.atomic.AtomicReferenceArray;
-import java.util.function.BooleanSupplier;
-import java.util.function.Consumer;
 
 public class FakeChunkCache extends ChunkSource {
     private static final Logger LOGGER = LogManager.getLogger();
