@@ -4,12 +4,12 @@
 	"compatibilityLevel": "JAVA_17",
 	"refmap": "creativecore.mixin-refmap.json",
 	"mixins": [
+	],
+	"client": [
 		"BufferBuilderAccessor",
 		"MouseHandlerAccessor",
 		"StringSplitterAccessor",
 		"VertexFormatAccessor"
-	],
-	"client": [
 	],
 	"minVersion": "0.8"
 }
