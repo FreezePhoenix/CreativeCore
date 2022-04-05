@@ -10,7 +10,9 @@ import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.command.v1.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.minecraft.world.level.LevelAccessor;
+import net.minecraftforge.eventbus.api.Event;
 import team.creative.creativecore.client.ClientLoader;
+import team.creative.creativecore.common.CommonLoader;
 
 public class CreativeFabricLoader implements ICreativeLoader {
     
@@ -21,6 +23,9 @@ public class CreativeFabricLoader implements ICreativeLoader {
     public String ignoreServerNetworkConstant() {
         return "";
     }
+    
+    @Override
+    public void register(CommonLoader loader) {}
     
     @Override
     public void registerClient(ClientLoader loader) {
@@ -51,6 +56,14 @@ public class CreativeFabricLoader implements ICreativeLoader {
     @Override
     public void registerClientStarted(Runnable run) {
         ClientLifecycleEvents.CLIENT_STARTED.register(x -> run.run());
+    }
+    
+    @Override
+    public void postForge(Event event) {}
+    
+    @Override
+    public boolean isModLoaded(String modid) {
+        return false;
     }
     
 }

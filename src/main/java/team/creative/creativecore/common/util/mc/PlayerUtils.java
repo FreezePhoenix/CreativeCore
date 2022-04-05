@@ -3,11 +3,16 @@ package team.creative.creativecore.common.util.mc;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.level.GameType;
 
 public class PlayerUtils {
+    
+    public static CompoundTag getPersistentData(Player player) {
+        return new CompoundTag();
+    }
     
     @Environment(EnvType.CLIENT)
     private static GameType getGameTypeClient(Player player) {
