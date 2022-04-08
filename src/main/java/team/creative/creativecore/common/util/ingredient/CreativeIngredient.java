@@ -14,6 +14,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.nbt.TagParser;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
@@ -179,5 +180,9 @@ public abstract class CreativeIngredient {
     }
     
     public abstract boolean equals(CreativeIngredient object);
+    
+    public abstract Component description();
+    
+    public abstract Component descriptionDetail();
     
 }
