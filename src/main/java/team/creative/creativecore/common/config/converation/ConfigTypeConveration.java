@@ -23,6 +23,8 @@ import net.minecraft.network.chat.TextComponent;
 import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.Side;
 import team.creative.creativecore.common.config.api.CreativeConfig;
 import team.creative.creativecore.common.config.holder.ConfigHolderDynamic;
@@ -421,20 +423,20 @@ public abstract class ConfigTypeConveration<T> {
             }
             
             @Override
-            @OnlyIn(value = Dist.CLIENT)
+            @Environment(EnvType.CLIENT)
             public void createControls(GuiParent parent, Class clazz) {
                 parent.add(new GuiTextfield("data", 30, 8).setExpandableX());
             }
             
             @Override
-            @OnlyIn(value = Dist.CLIENT)
+            @Environment(EnvType.CLIENT)
             public void loadValue(ResourceLocation value, GuiParent parent) {
                 GuiTextfield button = (GuiTextfield) parent.get("data");
                 button.setText(value.toString());
             }
             
             @Override
-            @OnlyIn(value = Dist.CLIENT)
+            @Environment(EnvType.CLIENT)
             protected ResourceLocation saveValue(GuiParent parent, Class clazz) {
                 GuiTextfield button = (GuiTextfield) parent.get("data");
                 return new ResourceLocation(button.getText());
@@ -530,7 +532,7 @@ public abstract class ConfigTypeConveration<T> {
             public void createControls(GuiParent parent, ConfigKeyField key, Class clazz) {
                 RegistryObjectConfig value = (RegistryObjectConfig) key.getDefault();
                 parent.add(new GuiComboBoxMapped<ResourceLocation>("sound", new TextMapBuilder<ResourceLocation>()
-                        .addComponent(value.registry.getKeys(), x -> new TextComponent(x.toString()))));
+                        .addComponent(value.registry.keySet(), x -> new TextComponent(x.toString()))));
             }
             
             @Override

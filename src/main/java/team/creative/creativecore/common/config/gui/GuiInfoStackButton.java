@@ -2,8 +2,6 @@ package team.creative.creativecore.common.config.gui;
 
 import java.util.List;
 
-import net.minecraft.ChatFormatting;
-import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import team.creative.creativecore.common.gui.controls.simple.GuiButton;

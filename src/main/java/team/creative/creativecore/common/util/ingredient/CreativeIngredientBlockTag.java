@@ -1,9 +1,7 @@
 package team.creative.creativecore.common.util.ingredient;
 
-import java.util.Optional;
-
-import net.minecraft.core.Registry;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.TextComponent;

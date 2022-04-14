@@ -1,5 +1,6 @@
 package team.creative.creativecore.common.util.ingredient;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -66,7 +67,7 @@ public class CreativeIngredientItem extends CreativeIngredient {
     
     @Override
     public Component descriptionDetail() {
-        return new TranslatableComponent("minecraft.item").append(": " + ChatFormatting.YELLOW).append(item.getRegistryName().toString());
+        return new TranslatableComponent("minecraft.item").append(": " + ChatFormatting.YELLOW).append(Registry.ITEM.getKey(item).toString());
     }
     
 }

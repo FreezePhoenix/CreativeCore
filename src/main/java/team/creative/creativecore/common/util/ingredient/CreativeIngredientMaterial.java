@@ -1,5 +1,6 @@
 package team.creative.creativecore.common.util.ingredient;
 
+import net.minecraft.ChatFormatting;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.chat.Component;
@@ -10,6 +11,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
+import team.creative.creativecore.common.util.mc.MaterialUtils;
 
 public class CreativeIngredientMaterial extends CreativeIngredient {
     
