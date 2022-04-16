@@ -18,7 +18,8 @@ repositories {
 
 loom.runConfigs.configureEach {
     ideConfigGenerated = true
-    vmArgs "-Dfabric.debug.replaceVersion=creativecore:${project(':CreativeCoreFabric').version}"
+    // vmArgs "-Dfabric.debug.replaceVersion=creativecore:${project(':CreativeCoreFabric').version}"
+    vmArgs "-Dfabric.debug.replaceVersion=creativecore:${project.version}"
 }
 
 dependencies {
