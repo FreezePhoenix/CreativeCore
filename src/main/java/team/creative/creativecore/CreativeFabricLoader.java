@@ -1,18 +1,20 @@
 package team.creative.creativecore;
 
+import java.util.function.BiPredicate;
+import java.util.function.Consumer;
+import java.util.function.Supplier;
+
+import net.fabricmc.api.EnvType;
 import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraftforge.eventbus.api.Event;
 import team.creative.creativecore.client.ClientLoader;
 import team.creative.creativecore.common.CommonLoader;
-
-import java.util.function.BiPredicate;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
 
 public class CreativeFabricLoader implements ICreativeLoader {
     
@@ -29,7 +31,8 @@ public class CreativeFabricLoader implements ICreativeLoader {
     
     @Override
     public void registerClient(ClientLoader loader) {
-        loader.registerClientCommands(ClientCommandManager.DISPATCHER);
+        if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
+            loader.registerClientCommands(ClientCommandManager.DISPATCHER);
     }
     
     @Override
