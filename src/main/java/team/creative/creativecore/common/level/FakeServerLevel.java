@@ -64,20 +64,13 @@ public class FakeServerLevel extends CreativeServerLevel {
         if (!p_230487_2_) {
             return flag ? 0.9F : 1.0F;
         } else {
-            switch (p_230487_1_) {
-            case DOWN:
-                return flag ? 0.9F : 0.5F;
-            case UP:
-                return flag ? 0.9F : 1.0F;
-            case NORTH:
-            case SOUTH:
-                return 0.8F;
-            case WEST:
-            case EAST:
-                return 0.6F;
-            default:
-                return 1.0F;
-            }
+            return switch (p_230487_1_) {
+                case DOWN -> flag ? 0.9F : 0.5F;
+                case UP -> flag ? 0.9F : 1.0F;
+                case NORTH, SOUTH -> 0.8F;
+                case WEST, EAST -> 0.6F;
+                default -> 1.0F;
+            };
         }
     }
     

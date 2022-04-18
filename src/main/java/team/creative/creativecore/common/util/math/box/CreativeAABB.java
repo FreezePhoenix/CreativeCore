@@ -33,22 +33,14 @@ public class CreativeAABB extends AABB {
     }
     
     protected double get(Facing facing) {
-        switch (facing) {
-        case EAST:
-            return maxX;
-        case WEST:
-            return minX;
-        case UP:
-            return maxY;
-        case DOWN:
-            return minY;
-        case SOUTH:
-            return maxZ;
-        case NORTH:
-            return minZ;
-        
-        }
-        return 0;
+        return switch (facing) {
+            case EAST -> maxX;
+            case WEST -> minX;
+            case UP -> maxY;
+            case DOWN -> minY;
+            case SOUTH -> maxZ;
+            case NORTH -> minZ;
+        };
     }
     
     public Vec3d getCorner(BoxCorner corner) {
@@ -92,83 +84,56 @@ public class CreativeAABB extends AABB {
     }
     
     public double getSize(Axis axis) {
-        switch (axis) {
-        case X:
-            return maxX - minX;
-        case Y:
-            return maxY - minY;
-        case Z:
-            return maxZ - minZ;
-        }
-        return 0;
+        return switch (axis) {
+            case X -> maxX - minX;
+            case Y -> maxY - minY;
+            case Z -> maxZ - minZ;
+        };
     }
     
     public double getMin(Axis axis) {
-        switch (axis) {
-        case X:
-            return minX;
-        case Y:
-            return minY;
-        case Z:
-            return minZ;
-        }
-        return 0;
+        return switch (axis) {
+            case X -> minX;
+            case Y -> minY;
+            case Z -> minZ;
+        };
     }
     
     public double getMax(Axis axis) {
-        switch (axis) {
-        case X:
-            return maxX;
-        case Y:
-            return maxY;
-        case Z:
-            return maxZ;
-        }
-        return 0;
+        return switch (axis) {
+            case X -> maxX;
+            case Y -> maxY;
+            case Z -> maxZ;
+        };
     }
     
     public static double get(AABB bb, Facing facing) {
-        switch (facing) {
-        case EAST:
-            return bb.maxX;
-        case WEST:
-            return bb.minX;
-        case UP:
-            return bb.maxY;
-        case DOWN:
-            return bb.minY;
-        case SOUTH:
-            return bb.maxZ;
-        case NORTH:
-            return bb.minZ;
-        }
-        return 0;
+        return switch (facing) {
+            case EAST -> bb.maxX;
+            case WEST -> bb.minX;
+            case UP -> bb.maxY;
+            case DOWN -> bb.minY;
+            case SOUTH -> bb.maxZ;
+            case NORTH -> bb.minZ;
+        };
     }
     
     public static double getMin(AABB bb, Axis axis) {
-        switch (axis) {
-        case X:
-            return bb.minX;
-        case Y:
-            return bb.minY;
-        case Z:
-            return bb.minZ;
-        default:
-            return 0;
-        }
+        return switch (axis) {
+            case X -> bb.minX;
+            case Y -> bb.minY;
+            case Z -> bb.minZ;
+            default -> 0;
+        };
     }
     
     public static double getMax(AABB bb, Axis axis) {
-        switch (axis) {
-        case X:
-            return bb.maxX;
-        case Y:
-            return bb.maxY;
-        case Z:
-            return bb.maxZ;
-        default:
-            return 0;
-        }
+        return switch (axis) {
+            case X -> bb.maxX;
+            case Y -> bb.maxY;
+            case Z -> bb.maxZ;
+            default -> 0;
+        };
     }
     
     public static Vec3d getCorner(AABB bb, BoxCorner corner) {

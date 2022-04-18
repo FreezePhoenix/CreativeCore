@@ -71,15 +71,11 @@ public enum Rotation {
     }
     
     public static Rotation getRotation(Axis axis, boolean clockwise) {
-        switch (axis) {
-        case X:
-            return clockwise ? X_CLOCKWISE : X_COUNTER_CLOCKWISE;
-        case Y:
-            return clockwise ? Y_CLOCKWISE : Y_COUNTER_CLOCKWISE;
-        case Z:
-            return clockwise ? Z_CLOCKWISE : Z_COUNTER_CLOCKWISE;
-        }
-        return null;
+        return switch (axis) {
+            case X -> clockwise ? X_CLOCKWISE : X_COUNTER_CLOCKWISE;
+            case Y -> clockwise ? Y_CLOCKWISE : Y_COUNTER_CLOCKWISE;
+            case Z -> clockwise ? Z_CLOCKWISE : Z_COUNTER_CLOCKWISE;
+        };
     }
     
     public static Rotation getRotation(Vec3d vec) {
@@ -99,16 +95,12 @@ public enum Rotation {
     }
     
     public static Rotation getRotation(net.minecraft.world.level.block.Rotation rotationIn) {
-        switch (rotationIn) {
-        case CLOCKWISE_90:
-            return Rotation.Y_CLOCKWISE;
-        case CLOCKWISE_180:
-            return Rotation.Y_CLOCKWISE;
-        case COUNTERCLOCKWISE_90:
-            return Rotation.Y_COUNTER_CLOCKWISE;
-        default:
-            return null;
-        }
+        return switch (rotationIn) {
+            case CLOCKWISE_90 -> Rotation.Y_CLOCKWISE;
+            case CLOCKWISE_180 -> Rotation.Y_CLOCKWISE;
+            case COUNTERCLOCKWISE_90 -> Rotation.Y_COUNTER_CLOCKWISE;
+            default -> null;
+        };
     }
     
     public static int getRotationCount(net.minecraft.world.level.block.Rotation rotationIn) {
@@ -227,7 +219,7 @@ public enum Rotation {
     public Axis rotate(Axis axis) {
         if (axis == this.axis)
             return axis;
-        
+        // TODO: I'm not exactly sure what this is doing ~ Aria
         switch (axis) {
         case X:
             if (this.axis == Axis.Y)
