@@ -111,29 +111,19 @@ public class CollisionCoordinator {
     }
     
     public double getRotationDegree(Axis axis) {
-        switch (axis) {
-        case X:
-            return rotX;
-        case Y:
-            return rotY;
-        case Z:
-            return rotZ;
-        default:
-            return 0;
-        }
+        return switch (axis) {
+            case X -> rotX;
+            case Y -> rotY;
+            case Z -> rotZ;
+        };
     }
     
     public Matrix3 getRotationMatrix(Axis axis) {
-        switch (axis) {
-        case X:
-            return rotationX;
-        case Y:
-            return rotationY;
-        case Z:
-            return rotationZ;
-        default:
-            return null;
-        }
+        return switch (axis) {
+            case X -> rotationX;
+            case Y -> rotationY;
+            case Z -> rotationZ;
+        };
     }
     
     public AABB computeSurroundingBox(AABB box) {

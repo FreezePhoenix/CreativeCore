@@ -102,14 +102,11 @@ public class GuiStyle {
     public StyleDisplay transparencyBackground = new DisplayTextureStretch(GUI_ASSETS, 224, 240, 16, 16);
     
     public StyleDisplay get(ControlStyleBorder border) {
-        switch (border) {
-        case BIG:
-            return this.borderThick;
-        case SMALL:
-            return this.border;
-        default:
-            return StyleDisplay.NONE;
-        }
+        return switch (border) {
+            case BIG -> this.borderThick;
+            case SMALL -> this.border;
+            default -> StyleDisplay.NONE;
+        };
     }
     
     public StyleDisplay get(ControlStyleFace face, boolean mouseOver) {
@@ -132,14 +129,11 @@ public class GuiStyle {
     }
     
     public int getBorder(ControlStyleBorder border) {
-        switch (border) {
-        case BIG:
-            return this.borderThickWidth;
-        case SMALL:
-            return this.borderWidth;
-        default:
-            return 0;
-        }
+        return switch (border) {
+            case BIG -> this.borderThickWidth;
+            case SMALL -> this.borderWidth;
+            default -> 0;
+        };
     }
     
     public int getContentOffset(ControlFormatting formatting) {

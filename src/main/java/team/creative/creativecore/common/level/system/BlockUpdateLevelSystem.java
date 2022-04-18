@@ -42,46 +42,26 @@ public class BlockUpdateLevelSystem {
     }
     
     private int getBound(Facing facing) {
-        switch (facing) {
-        case EAST:
-            return boundMaxX;
-        case WEST:
-            return boundMinX;
-        case UP:
-            return boundMaxY;
-        case DOWN:
-            return boundMinY;
-        case SOUTH:
-            return boundMaxZ;
-        case NORTH:
-            return boundMinZ;
-        default:
-            throw new UnsupportedOperationException();
-        }
+        return switch (facing) {
+            case EAST -> boundMaxX;
+            case WEST -> boundMinX;
+            case UP -> boundMaxY;
+            case DOWN -> boundMinY;
+            case SOUTH -> boundMaxZ;
+            case NORTH -> boundMinZ;
+            default -> throw new UnsupportedOperationException();
+        };
     }
     
     private void setBound(Facing facing, int value) {
         switch (facing) {
-        case EAST:
-            this.boundMaxX = value;
-            break;
-        case WEST:
-            this.boundMinX = value;
-            break;
-        case UP:
-            this.boundMaxY = value;
-            break;
-        case DOWN:
-            this.boundMinY = value;
-            break;
-        case SOUTH:
-            this.boundMaxZ = value;
-            break;
-        case NORTH:
-            this.boundMinZ = value;
-            break;
-        default:
-            throw new UnsupportedOperationException();
+            case EAST -> this.boundMaxX = value;
+            case WEST -> this.boundMinX = value;
+            case UP -> this.boundMaxY = value;
+            case DOWN -> this.boundMinY = value;
+            case SOUTH -> this.boundMaxZ = value;
+            case NORTH -> this.boundMinZ = value;
+            default -> throw new UnsupportedOperationException();
         }
     }
     
@@ -170,11 +150,7 @@ public class BlockUpdateLevelSystem {
                         
                     levelBoundListeners.forEach(x -> x.rescan(level, this, facing, remaining, facing.positive ? bound + 1 : bound));
                 } else if (bound > pos.get(axis)) {
-                    for (Iterator<BlockPos> itr = edgePositions.iterator(); itr.hasNext();) {
-                        BlockPos edge = itr.next();
-                        if (edge.get(axis) == bound && !isEdgeExcept(edge, facing))
-                            itr.remove();
-                    }
+                    edgePositions.removeIf(edge -> edge.get(axis) == bound && !isEdgeExcept(edge, facing));
                     
                     edgePositions.add(pos);
                     levelBoundListeners.forEach(x -> x.rescan(level, this, facing, new SingletonList<>(pos), facing.positive ? bound + 1 : bound));

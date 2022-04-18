@@ -59,22 +59,15 @@ public class OBB extends CreativeAABB {
     }
     
     public OBB set(Facing facing, double value) {
-        switch (facing) {
-        case EAST:
-            return new OBB(origin, this.minX, this.minY, this.minZ, value, this.maxY, this.maxZ);
-        case WEST:
-            return new OBB(origin, value, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
-        case UP:
-            return new OBB(origin, this.minX, this.minY, this.minZ, this.maxX, value, this.maxZ);
-        case DOWN:
-            return new OBB(origin, this.minX, value, this.minZ, this.maxX, this.maxY, this.maxZ);
-        case SOUTH:
-            return new OBB(origin, this.minX, this.minY, this.minZ, this.maxX, this.maxY, value);
-        case NORTH:
-            return new OBB(origin, this.minX, this.minY, value, this.maxX, this.maxY, this.maxZ);
-        default:
-            throw new UnsupportedOperationException();
-        }
+        return switch (facing) {
+            case EAST -> new OBB(origin, this.minX, this.minY, this.minZ, value, this.maxY, this.maxZ);
+            case WEST -> new OBB(origin, value, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
+            case UP -> new OBB(origin, this.minX, this.minY, this.minZ, this.maxX, value, this.maxZ);
+            case DOWN -> new OBB(origin, this.minX, value, this.minZ, this.maxX, this.maxY, this.maxZ);
+            case SOUTH -> new OBB(origin, this.minX, this.minY, this.minZ, this.maxX, this.maxY, value);
+            case NORTH -> new OBB(origin, this.minX, this.minY, value, this.maxX, this.maxY, this.maxZ);
+            default -> throw new UnsupportedOperationException();
+        };
     }
     
     @Override
@@ -85,7 +78,7 @@ public class OBB extends CreativeAABB {
             return false;
         } else {
             OBB axisalignedbb = (OBB) p_equals_1_;
-            
+
             if (axisalignedbb.origin != origin) {
                 return false;
             } else if (Double.compare(axisalignedbb.minX, this.minX) != 0) {
@@ -201,7 +194,7 @@ public class OBB extends CreativeAABB {
     }
     
     public static boolean equals(double a, double b) {
-        return a == b ? true : Math.abs(a - b) < EPSILON;
+        return a == b || Math.abs(a - b) < EPSILON;
     }
     
     public double getMaxTranslated(Axis axis) {
@@ -265,12 +258,9 @@ public class OBB extends CreativeAABB {
                 scale = Math.min(scale, Math.abs((this.maxZ - fakeBox.minZ) / pushVec.z));
             else
                 scale = Math.min(scale, Math.abs((this.minZ - fakeBox.maxZ) / pushVec.z));
-            
-        if (scale <= minScale)
-            return minScale;
-        
-        return scale;
-        
+
+        return Math.max(scale, minScale);
+
     }
     
 }

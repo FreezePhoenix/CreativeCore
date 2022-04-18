@@ -164,44 +164,27 @@ public enum Axis {
     };
     
     public static Axis get(Direction.Axis axis) {
-        switch (axis) {
-        case X:
-            return Axis.X;
-        case Y:
-            return Axis.Y;
-        case Z:
-            return Axis.Z;
-        }
-        throw new IllegalArgumentException();
+        return switch (axis) {
+            case X -> Axis.X;
+            case Y -> Axis.Y;
+            case Z -> Axis.Z;
+        };
     }
     
     public static Axis third(Axis one, Axis two) {
-        switch (one) {
-        case X:
-            if (two == Axis.Y)
-                return Axis.Z;
-            return Axis.Y;
-        case Y:
-            if (two == Axis.X)
-                return Axis.Z;
-            return Axis.X;
-        case Z:
-            if (two == Axis.Y)
-                return Axis.X;
-            return Axis.Y;
-        }
-        throw new IllegalArgumentException();
+        return switch (one) {
+            case X -> two == Axis.Y ? Axis.Z : Axis.Y;
+            case Y -> two == Axis.Z ? Axis.X : Axis.Z;
+            case Z -> two == Axis.X ? Axis.Y : Axis.X;
+        };
     }
     
     public static Axis getMirrorAxis(Mirror mirrorIn) {
-        switch (mirrorIn) {
-        case FRONT_BACK:
-            return Axis.X;
-        case LEFT_RIGHT:
-            return Axis.Z;
-        default:
-            return null;
-        }
+        return switch (mirrorIn) {
+            case FRONT_BACK -> Axis.X;
+            case LEFT_RIGHT -> Axis.Z;
+            default -> null;
+        };
     }
     
     public abstract Axis one();

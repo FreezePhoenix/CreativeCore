@@ -48,27 +48,19 @@ public enum BoxCorner {
     }
     
     public Facing getFacing(Axis axis) {
-        switch (axis) {
-        case X:
-            return x;
-        case Y:
-            return y;
-        case Z:
-            return z;
-        }
-        throw new RuntimeException("null axis not permitted");
+        return switch (axis) {
+            case X -> x;
+            case Y -> y;
+            case Z -> z;
+        };
     }
     
     public BoxCorner mirror(Axis axis) {
-        switch (axis) {
-        case X:
-            return getCorner(x.opposite(), y, z);
-        case Y:
-            return getCorner(x, y.opposite(), z);
-        case Z:
-            return getCorner(x, y, z.opposite());
-        }
-        throw new RuntimeException("null axis not permitted");
+        return switch (axis) {
+            case X -> getCorner(x.opposite(), y, z);
+            case Y -> getCorner(x, y.opposite(), z);
+            case Z -> getCorner(x, y, z.opposite());
+        };
     }
     
     public BoxCorner rotate(Rotation rotation) {
