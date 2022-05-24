@@ -1,5 +1,8 @@
 package team.creative.creativecore.client;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.context.CommandContext;
 
@@ -24,16 +27,18 @@ import team.creative.creativecore.common.gui.integration.GuiEventHandler;
 import team.creative.creativecore.common.gui.integration.GuiScreenIntegration;
 import team.creative.creativecore.common.gui.style.GuiStyle;
 
-import java.util.HashSet;
-import java.util.Set;
-
 public class CreativeCoreClient implements ClientModInitializer {
     
     private static final Minecraft mc = Minecraft.getInstance();
-
-    protected static Set<String> MODS = new HashSet<>();
+    
+    private static final List<String> MOD_CONFIGS = new ArrayList<>();
+    
+    public static Iterable<String> getModConfigs() {
+        return MOD_CONFIGS;
+    }
+    
     public static void registerClientConfig(String modid) {
-        MODS.add(modid);
+        MOD_CONFIGS.add(modid);
     }
     
     public static float getDeltaFrameTime() {
