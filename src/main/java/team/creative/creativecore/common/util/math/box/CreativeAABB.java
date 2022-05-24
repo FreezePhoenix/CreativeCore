@@ -34,12 +34,12 @@ public class CreativeAABB extends AABB {
     
     protected double get(Facing facing) {
         return switch (facing) {
-            case EAST -> maxX;
-            case WEST -> minX;
-            case UP -> maxY;
-            case DOWN -> minY;
-            case SOUTH -> maxZ;
-            case NORTH -> minZ;
+        case EAST -> maxX;
+        case WEST -> minX;
+        case UP -> maxY;
+        case DOWN -> minY;
+        case SOUTH -> maxZ;
+        case NORTH -> minZ;
         };
     }
     
@@ -85,54 +85,54 @@ public class CreativeAABB extends AABB {
     
     public double getSize(Axis axis) {
         return switch (axis) {
-            case X -> maxX - minX;
-            case Y -> maxY - minY;
-            case Z -> maxZ - minZ;
+        case X -> maxX - minX;
+        case Y -> maxY - minY;
+        case Z -> maxZ - minZ;
         };
     }
     
     public double getMin(Axis axis) {
         return switch (axis) {
-            case X -> minX;
-            case Y -> minY;
-            case Z -> minZ;
+        case X -> minX;
+        case Y -> minY;
+        case Z -> minZ;
         };
     }
     
     public double getMax(Axis axis) {
         return switch (axis) {
-            case X -> maxX;
-            case Y -> maxY;
-            case Z -> maxZ;
+        case X -> maxX;
+        case Y -> maxY;
+        case Z -> maxZ;
         };
     }
     
     public static double get(AABB bb, Facing facing) {
         return switch (facing) {
-            case EAST -> bb.maxX;
-            case WEST -> bb.minX;
-            case UP -> bb.maxY;
-            case DOWN -> bb.minY;
-            case SOUTH -> bb.maxZ;
-            case NORTH -> bb.minZ;
+        case EAST -> bb.maxX;
+        case WEST -> bb.minX;
+        case UP -> bb.maxY;
+        case DOWN -> bb.minY;
+        case SOUTH -> bb.maxZ;
+        case NORTH -> bb.minZ;
         };
     }
     
     public static double getMin(AABB bb, Axis axis) {
         return switch (axis) {
-            case X -> bb.minX;
-            case Y -> bb.minY;
-            case Z -> bb.minZ;
-            default -> 0;
+        case X -> bb.minX;
+        case Y -> bb.minY;
+        case Z -> bb.minZ;
+        default -> 0;
         };
     }
     
     public static double getMax(AABB bb, Axis axis) {
         return switch (axis) {
-            case X -> bb.maxX;
-            case Y -> bb.maxY;
-            case Z -> bb.maxZ;
-            default -> 0;
+        case X -> bb.maxX;
+        case Y -> bb.maxY;
+        case Z -> bb.maxZ;
+        default -> 0;
         };
     }
     

@@ -97,10 +97,10 @@ public class Color {
     
     public void set(ColorType type, byte value) {
         switch (type) {
-            case ALPHA -> alpha = value;
-            case RED -> red = value;
-            case GREEN -> green = value;
-            case BLUE -> blue = value;
+        case ALPHA -> alpha = value;
+        case RED -> red = value;
+        case GREEN -> green = value;
+        case BLUE -> blue = value;
         }
     }
     
@@ -138,11 +138,11 @@ public class Color {
     
     public byte get(ColorType type) {
         return switch (type) {
-            case ALPHA -> alpha;
-            case RED -> red;
-            case GREEN -> green;
-            case BLUE -> blue;
-            default -> 0;
+        case ALPHA -> alpha;
+        case RED -> red;
+        case GREEN -> green;
+        case BLUE -> blue;
+        default -> 0;
         };
     }
     
@@ -164,11 +164,11 @@ public class Color {
     
     public float getDecimal(ColorType type) {
         return switch (type) {
-            case ALPHA -> alpha / 255F;
-            case RED -> red / 255F;
-            case GREEN -> green / 255F;
-            case BLUE -> blue / 255F;
-            default -> 0;
+        case ALPHA -> alpha / 255F;
+        case RED -> red / 255F;
+        case GREEN -> green / 255F;
+        case BLUE -> blue / 255F;
+        default -> 0;
         };
     }
     

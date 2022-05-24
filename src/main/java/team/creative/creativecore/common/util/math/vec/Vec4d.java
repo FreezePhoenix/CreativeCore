@@ -40,21 +40,21 @@ public class Vec4d extends VecNd<Vec4d> {
     @Override
     public double get(int dim) {
         return switch (dim) {
-            case 0 -> x;
-            case 1 -> y;
-            case 2 -> z;
-            case 3 -> w;
-            default -> 0;
+        case 0 -> x;
+        case 1 -> y;
+        case 2 -> z;
+        case 3 -> w;
+        default -> 0;
         };
     }
     
     @Override
     public double get(Axis axis) {
         return switch (axis) {
-            case X -> x;
-            case Y -> y;
-            case Z -> z;
-            default -> 0;
+        case X -> x;
+        case Y -> y;
+        case Z -> z;
+        default -> 0;
         };
     }
     
@@ -68,19 +68,19 @@ public class Vec4d extends VecNd<Vec4d> {
     @Override
     public void set(Axis axis, double value) {
         switch (axis) {
-            case X -> this.x = value;
-            case Y -> this.y = value;
-            case Z -> this.z = value;
+        case X -> this.x = value;
+        case Y -> this.y = value;
+        case Z -> this.z = value;
         }
     }
     
     @Override
     public void set(int dim, double value) {
         switch (dim) {
-            case 0 -> this.x = value;
-            case 1 -> this.y = value;
-            case 2 -> this.z = value;
-            case 3 -> this.w = value;
+        case 0 -> this.x = value;
+        case 1 -> this.y = value;
+        case 2 -> this.z = value;
+        case 3 -> this.w = value;
         }
     }
     

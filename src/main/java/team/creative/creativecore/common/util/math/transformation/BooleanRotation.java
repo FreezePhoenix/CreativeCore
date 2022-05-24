@@ -43,15 +43,15 @@ public enum BooleanRotation {
     
     private static Axis one(Axis axis) {
         return switch (axis) {
-            case X -> Axis.Y;
-            case Y, Z -> Axis.X;
+        case X -> Axis.Y;
+        case Y, Z -> Axis.X;
         };
     }
     
     private static Axis two(Axis axis) {
         return switch (axis) {
-            case X, Y -> Axis.Z;
-            case Z -> Axis.Y;
+        case X, Y -> Axis.Z;
+        case Z -> Axis.Y;
         };
     }
     

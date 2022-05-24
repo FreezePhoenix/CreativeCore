@@ -165,25 +165,25 @@ public enum Axis {
     
     public static Axis get(Direction.Axis axis) {
         return switch (axis) {
-            case X -> Axis.X;
-            case Y -> Axis.Y;
-            case Z -> Axis.Z;
+        case X -> Axis.X;
+        case Y -> Axis.Y;
+        case Z -> Axis.Z;
         };
     }
     
     public static Axis third(Axis one, Axis two) {
         return switch (one) {
-            case X -> two == Axis.Y ? Axis.Z : Axis.Y;
-            case Y -> two == Axis.Z ? Axis.X : Axis.Z;
-            case Z -> two == Axis.X ? Axis.Y : Axis.X;
+        case X -> two == Axis.Y ? Axis.Z : Axis.Y;
+        case Y -> two == Axis.Z ? Axis.X : Axis.Z;
+        case Z -> two == Axis.X ? Axis.Y : Axis.X;
         };
     }
     
     public static Axis getMirrorAxis(Mirror mirrorIn) {
         return switch (mirrorIn) {
-            case FRONT_BACK -> Axis.X;
-            case LEFT_RIGHT -> Axis.Z;
-            default -> null;
+        case FRONT_BACK -> Axis.X;
+        case LEFT_RIGHT -> Axis.Z;
+        default -> null;
         };
     }
     

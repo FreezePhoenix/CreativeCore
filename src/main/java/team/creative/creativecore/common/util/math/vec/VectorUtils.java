@@ -14,41 +14,41 @@ public class VectorUtils {
     
     public static Vector3d set(Vector3d vec, double value, Axis axis) {
         return switch (axis) {
-            case X -> new Vector3d(value, vec.y, vec.z);
-            case Y -> new Vector3d(vec.x, value, vec.z);
-            case Z -> new Vector3d(vec.x, vec.y, value);
+        case X -> new Vector3d(value, vec.y, vec.z);
+        case Y -> new Vector3d(vec.x, value, vec.z);
+        case Z -> new Vector3d(vec.x, vec.y, value);
         };
     }
     
     public static Vec3 set(Vec3 vec, double value, Axis axis) {
         return switch (axis) {
-            case X -> new Vec3(value, vec.y, vec.z);
-            case Y -> new Vec3(vec.x, value, vec.z);
-            case Z -> new Vec3(vec.x, vec.y, value);
+        case X -> new Vec3(value, vec.y, vec.z);
+        case Y -> new Vec3(vec.x, value, vec.z);
+        case Z -> new Vec3(vec.x, vec.y, value);
         };
     }
     
     public static void set(Vector3f vec, float value, Axis axis) {
         switch (axis) {
-            case X -> vec.set(value, vec.y(), vec.z());
-            case Y -> vec.set(vec.x(), value, vec.z());
-            case Z -> vec.set(vec.x(), vec.y(), value);
+        case X -> vec.set(value, vec.y(), vec.z());
+        case Y -> vec.set(vec.x(), value, vec.z());
+        case Z -> vec.set(vec.x(), vec.y(), value);
         }
     }
     
     public static void set(MutableBlockPos vec, int value, Axis axis) {
         switch (axis) {
-            case X -> vec.setX(value);
-            case Y -> vec.setY(value);
-            case Z -> vec.setZ(value);
+        case X -> vec.setX(value);
+        case Y -> vec.setY(value);
+        case Z -> vec.setZ(value);
         }
     }
     
     public static BlockPos set(BlockPos vec, int value, Axis axis) {
         return switch (axis) {
-            case X -> new BlockPos(value, vec.getY(), vec.getZ());
-            case Y -> new BlockPos(vec.getX(), value, vec.getZ());
-            case Z -> new BlockPos(vec.getX(), vec.getY(), value);
+        case X -> new BlockPos(value, vec.getY(), vec.getZ());
+        case Y -> new BlockPos(vec.getX(), value, vec.getZ());
+        case Z -> new BlockPos(vec.getX(), vec.getY(), value);
         };
     }
     
@@ -74,49 +74,49 @@ public class VectorUtils {
     
     public static float get(Axis axis, float x, float y, float z) {
         return switch (axis) {
-            case X -> x;
-            case Y -> y;
-            case Z -> z;
+        case X -> x;
+        case Y -> y;
+        case Z -> z;
         };
     }
     
     public static double get(Axis axis, double x, double y, double z) {
         return switch (axis) {
-            case X -> x;
-            case Y -> y;
-            case Z -> z;
+        case X -> x;
+        case Y -> y;
+        case Z -> z;
         };
     }
     
     public static int get(Axis axis, int x, int y, int z) {
         return switch (axis) {
-            case X -> x;
-            case Y -> y;
-            case Z -> z;
+        case X -> x;
+        case Y -> y;
+        case Z -> z;
         };
     }
     
     public static float get(net.minecraft.core.Direction.Axis axis, float x, float y, float z) {
         return switch (axis) {
-            case X -> x;
-            case Y -> y;
-            case Z -> z;
+        case X -> x;
+        case Y -> y;
+        case Z -> z;
         };
     }
     
     public static double get(net.minecraft.core.Direction.Axis axis, double x, double y, double z) {
         return switch (axis) {
-            case X -> x;
-            case Y -> y;
-            case Z -> z;
+        case X -> x;
+        case Y -> y;
+        case Z -> z;
         };
     }
     
     public static int get(net.minecraft.core.Direction.Axis axis, int x, int y, int z) {
         return switch (axis) {
-            case X -> x;
-            case Y -> y;
-            case Z -> z;
+        case X -> x;
+        case Y -> y;
+        case Z -> z;
         };
     }
     

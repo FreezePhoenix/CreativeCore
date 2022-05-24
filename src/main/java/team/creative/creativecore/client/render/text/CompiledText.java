@@ -136,26 +136,25 @@ public class CompiledText {
         stack.pushPose();
         for (CompiledLine line : lines) {
             switch (alignment) {
-                case LEFT -> {
-                    line.render(stack);
-                    usedWidth = Math.max(usedWidth, line.width);
-                }
-                case CENTER -> {
-                    stack.pushPose();
-                    stack.translate(maxWidth / 2 - line.width / 2, 0, 0);
-                    line.render(stack);
-                    usedWidth = Math.max(usedWidth, maxWidth);
-                    stack.popPose();
-                }
-                case RIGHT -> {
-                    stack.pushPose();
-                    stack.translate(maxWidth - line.width, 0, 0);
-                    line.render(stack);
-                    usedWidth = Math.max(usedWidth, maxWidth);
-                    stack.popPose();
-                }
-                default -> {
-                }
+            case LEFT -> {
+                line.render(stack);
+                usedWidth = Math.max(usedWidth, line.width);
+            }
+            case CENTER -> {
+                stack.pushPose();
+                stack.translate(maxWidth / 2 - line.width / 2, 0, 0);
+                line.render(stack);
+                usedWidth = Math.max(usedWidth, maxWidth);
+                stack.popPose();
+            }
+            case RIGHT -> {
+                stack.pushPose();
+                stack.translate(maxWidth - line.width, 0, 0);
+                line.render(stack);
+                usedWidth = Math.max(usedWidth, maxWidth);
+                stack.popPose();
+            }
+            default -> {}
             }
             int height = line.height + lineSpacing;
             stack.translate(0, height, 0);

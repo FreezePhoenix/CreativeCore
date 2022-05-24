@@ -140,20 +140,20 @@ public enum Facing {
     
     public static Facing get(Direction direction) {
         return switch (direction) {
-            case DOWN -> Facing.DOWN;
-            case UP -> Facing.UP;
-            case NORTH -> Facing.NORTH;
-            case SOUTH -> Facing.SOUTH;
-            case WEST -> Facing.WEST;
-            case EAST -> Facing.EAST;
+        case DOWN -> Facing.DOWN;
+        case UP -> Facing.UP;
+        case NORTH -> Facing.NORTH;
+        case SOUTH -> Facing.SOUTH;
+        case WEST -> Facing.WEST;
+        case EAST -> Facing.EAST;
         };
     }
     
     public static Facing get(Axis axis, boolean positive) {
         return switch (axis) {
-            case X -> positive ? Facing.EAST : Facing.WEST;
-            case Y -> positive ? Facing.UP : Facing.DOWN;
-            case Z -> positive ? Facing.SOUTH : Facing.NORTH;
+        case X -> positive ? Facing.EAST : Facing.WEST;
+        case Y -> positive ? Facing.UP : Facing.DOWN;
+        case Z -> positive ? Facing.SOUTH : Facing.NORTH;
         };
     }
     
@@ -216,33 +216,33 @@ public enum Facing {
     
     public Axis getUAxis() {
         return switch (axis) {
-            case X -> Axis.Z;
-            case Y -> Axis.X;
-            case Z -> Axis.X;
+        case X -> Axis.Z;
+        case Y -> Axis.X;
+        case Z -> Axis.X;
         };
     }
     
     public Axis getVAxis() {
         return switch (axis) {
-            case X -> Axis.Y;
-            case Y -> Axis.Z;
-            case Z -> Axis.Y;
+        case X -> Axis.Y;
+        case Y -> Axis.Z;
+        case Z -> Axis.Y;
         };
     }
     
     public float getU(float x, float y, float z) {
         return switch (axis) {
-            case X -> z;
-            case Y -> x;
-            case Z -> x;
+        case X -> z;
+        case Y -> x;
+        case Z -> x;
         };
     }
     
     public float getV(float x, float y, float z) {
         return switch (axis) {
-            case X -> y;
-            case Y -> z;
-            case Z -> y;
+        case X -> y;
+        case Y -> z;
+        case Z -> y;
         };
     }
     

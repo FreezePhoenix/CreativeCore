@@ -144,20 +144,20 @@ public enum BoxFace {
     
     public static BoxFace get(Facing facing) {
         return switch (facing) {
-            case EAST -> EAST;
-            case WEST -> WEST;
-            case UP -> UP;
-            case DOWN -> DOWN;
-            case SOUTH -> SOUTH;
-            case NORTH -> NORTH;
+        case EAST -> EAST;
+        case WEST -> WEST;
+        case UP -> UP;
+        case DOWN -> DOWN;
+        case SOUTH -> SOUTH;
+        case NORTH -> NORTH;
         };
     }
     
     public static BoxFace get(Axis axis, boolean direction) {
         return switch (axis) {
-            case X -> direction ? EAST : WEST;
-            case Y -> direction ? UP : DOWN;
-            case Z -> direction ? SOUTH : NORTH;
+        case X -> direction ? EAST : WEST;
+        case Y -> direction ? UP : DOWN;
+        case Z -> direction ? SOUTH : NORTH;
         };
     }
     

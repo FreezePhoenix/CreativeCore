@@ -156,52 +156,52 @@ public class AlignedBox {
     
     public float get(Facing facing) {
         return switch (facing) {
-            case EAST -> maxX;
-            case WEST -> minX;
-            case UP -> maxY;
-            case DOWN -> minY;
-            case SOUTH -> maxZ;
-            case NORTH -> minZ;
+        case EAST -> maxX;
+        case WEST -> minX;
+        case UP -> maxY;
+        case DOWN -> minY;
+        case SOUTH -> maxZ;
+        case NORTH -> minZ;
         };
     }
     
     public float getSize(Axis axis) {
         return switch (axis) {
-            case X -> maxX - minX;
-            case Y -> maxY - minY;
-            case Z -> maxZ - minZ;
+        case X -> maxX - minX;
+        case Y -> maxY - minY;
+        case Z -> maxZ - minZ;
         };
     }
     
     public void setMin(Axis axis, float value) {
         switch (axis) {
-            case X -> minX = value;
-            case Y -> minY = value;
-            case Z -> minZ = value;
+        case X -> minX = value;
+        case Y -> minY = value;
+        case Z -> minZ = value;
         }
     }
     
     public float getMin(Axis axis) {
         return switch (axis) {
-            case X -> minX;
-            case Y -> minY;
-            case Z -> minZ;
+        case X -> minX;
+        case Y -> minY;
+        case Z -> minZ;
         };
     }
     
     public void setMax(Axis axis, float value) {
         switch (axis) {
-            case X -> maxX = value;
-            case Y -> maxY = value;
-            case Z -> maxZ = value;
+        case X -> maxX = value;
+        case Y -> maxY = value;
+        case Z -> maxZ = value;
         }
     }
     
     public float getMax(Axis axis) {
         return switch (axis) {
-            case X -> maxX;
-            case Y -> maxY;
-            case Z -> maxZ;
+        case X -> maxX;
+        case Y -> maxY;
+        case Z -> maxZ;
         };
     }
     

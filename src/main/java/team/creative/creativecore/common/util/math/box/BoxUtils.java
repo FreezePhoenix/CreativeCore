@@ -32,10 +32,10 @@ public class BoxUtils {
     
     private static double lengthIgnoreAxis(Vec3d vec, Axis axis) {
         return switch (axis) {
-            case X -> Math.sqrt(vec.y * vec.y + vec.z * vec.z);
-            case Y -> Math.sqrt(vec.x * vec.x + vec.z * vec.z);
-            case Z -> Math.sqrt(vec.x * vec.x + vec.y * vec.y);
-            default -> 0;
+        case X -> Math.sqrt(vec.y * vec.y + vec.z * vec.z);
+        case Y -> Math.sqrt(vec.x * vec.x + vec.z * vec.z);
+        case Z -> Math.sqrt(vec.x * vec.x + vec.y * vec.y);
+        default -> 0;
         };
     }
     
@@ -86,10 +86,10 @@ public class BoxUtils {
         Vec3d[] corners = getRotatedCorners(boundingBox, coordinator.origin);
         
         IncludeBox bb = new IncludeBox();
-
+        
         for (Vec3d vec : corners) {
             bb.include(vec);
-
+            
             if (coordinator.hasOnlyTranslation()) {
                 vec.add(coordinator.translation);
                 bb.include(vec);
@@ -97,7 +97,7 @@ public class BoxUtils {
                 includeMaxRotationInBox(bb, new Vec3d(vec), Axis.X, coordinator);
                 includeMaxRotationInBox(bb, new Vec3d(vec), Axis.Y, coordinator);
                 includeMaxRotationInBox(bb, new Vec3d(vec), Axis.Z, coordinator);
-
+                
                 coordinator.transform(vec, 1D);
                 bb.include(vec);
             }
@@ -165,12 +165,12 @@ public class BoxUtils {
         
         public void include(Facing facing, double value) {
             switch (facing) {
-                case EAST -> maxX = Math.max(maxX, value);
-                case WEST -> minX = Math.min(minX, value);
-                case UP -> maxY = Math.max(maxY, value);
-                case DOWN -> minY = Math.min(minY, value);
-                case SOUTH -> maxZ = Math.max(maxZ, value);
-                case NORTH -> minZ = Math.min(minZ, value);
+            case EAST -> maxX = Math.max(maxX, value);
+            case WEST -> minX = Math.min(minX, value);
+            case UP -> maxY = Math.max(maxY, value);
+            case DOWN -> minY = Math.min(minY, value);
+            case SOUTH -> maxZ = Math.max(maxZ, value);
+            case NORTH -> minZ = Math.min(minZ, value);
             }
         }
         

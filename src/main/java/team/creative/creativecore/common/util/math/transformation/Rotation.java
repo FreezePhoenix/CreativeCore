@@ -72,9 +72,9 @@ public enum Rotation {
     
     public static Rotation getRotation(Axis axis, boolean clockwise) {
         return switch (axis) {
-            case X -> clockwise ? X_CLOCKWISE : X_COUNTER_CLOCKWISE;
-            case Y -> clockwise ? Y_CLOCKWISE : Y_COUNTER_CLOCKWISE;
-            case Z -> clockwise ? Z_CLOCKWISE : Z_COUNTER_CLOCKWISE;
+        case X -> clockwise ? X_CLOCKWISE : X_COUNTER_CLOCKWISE;
+        case Y -> clockwise ? Y_CLOCKWISE : Y_COUNTER_CLOCKWISE;
+        case Z -> clockwise ? Z_CLOCKWISE : Z_COUNTER_CLOCKWISE;
         };
     }
     
@@ -96,10 +96,10 @@ public enum Rotation {
     
     public static Rotation getRotation(net.minecraft.world.level.block.Rotation rotationIn) {
         return switch (rotationIn) {
-            case CLOCKWISE_90 -> Rotation.Y_CLOCKWISE;
-            case CLOCKWISE_180 -> Rotation.Y_CLOCKWISE;
-            case COUNTERCLOCKWISE_90 -> Rotation.Y_COUNTER_CLOCKWISE;
-            default -> null;
+        case CLOCKWISE_90 -> Rotation.Y_CLOCKWISE;
+        case CLOCKWISE_180 -> Rotation.Y_CLOCKWISE;
+        case COUNTERCLOCKWISE_90 -> Rotation.Y_COUNTER_CLOCKWISE;
+        default -> null;
         };
     }
     

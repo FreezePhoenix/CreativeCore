@@ -60,13 +60,13 @@ public class OBB extends CreativeAABB {
     
     public OBB set(Facing facing, double value) {
         return switch (facing) {
-            case EAST -> new OBB(origin, this.minX, this.minY, this.minZ, value, this.maxY, this.maxZ);
-            case WEST -> new OBB(origin, value, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
-            case UP -> new OBB(origin, this.minX, this.minY, this.minZ, this.maxX, value, this.maxZ);
-            case DOWN -> new OBB(origin, this.minX, value, this.minZ, this.maxX, this.maxY, this.maxZ);
-            case SOUTH -> new OBB(origin, this.minX, this.minY, this.minZ, this.maxX, this.maxY, value);
-            case NORTH -> new OBB(origin, this.minX, this.minY, value, this.maxX, this.maxY, this.maxZ);
-            default -> throw new UnsupportedOperationException();
+        case EAST -> new OBB(origin, this.minX, this.minY, this.minZ, value, this.maxY, this.maxZ);
+        case WEST -> new OBB(origin, value, this.minY, this.minZ, this.maxX, this.maxY, this.maxZ);
+        case UP -> new OBB(origin, this.minX, this.minY, this.minZ, this.maxX, value, this.maxZ);
+        case DOWN -> new OBB(origin, this.minX, value, this.minZ, this.maxX, this.maxY, this.maxZ);
+        case SOUTH -> new OBB(origin, this.minX, this.minY, this.minZ, this.maxX, this.maxY, value);
+        case NORTH -> new OBB(origin, this.minX, this.minY, value, this.maxX, this.maxY, this.maxZ);
+        default -> throw new UnsupportedOperationException();
         };
     }
     
@@ -78,7 +78,7 @@ public class OBB extends CreativeAABB {
             return false;
         } else {
             OBB axisalignedbb = (OBB) p_equals_1_;
-
+            
             if (axisalignedbb.origin != origin) {
                 return false;
             } else if (Double.compare(axisalignedbb.minX, this.minX) != 0) {
@@ -258,9 +258,9 @@ public class OBB extends CreativeAABB {
                 scale = Math.min(scale, Math.abs((this.maxZ - fakeBox.minZ) / pushVec.z));
             else
                 scale = Math.min(scale, Math.abs((this.minZ - fakeBox.maxZ) / pushVec.z));
-
+            
         return Math.max(scale, minScale);
-
+        
     }
     
 }

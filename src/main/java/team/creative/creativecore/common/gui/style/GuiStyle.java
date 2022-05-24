@@ -103,9 +103,9 @@ public class GuiStyle {
     
     public StyleDisplay get(ControlStyleBorder border) {
         return switch (border) {
-            case BIG -> this.borderThick;
-            case SMALL -> this.border;
-            default -> StyleDisplay.NONE;
+        case BIG -> this.borderThick;
+        case SMALL -> this.border;
+        default -> StyleDisplay.NONE;
         };
     }
     
@@ -130,9 +130,9 @@ public class GuiStyle {
     
     public int getBorder(ControlStyleBorder border) {
         return switch (border) {
-            case BIG -> this.borderThickWidth;
-            case SMALL -> this.borderWidth;
-            default -> 0;
+        case BIG -> this.borderThickWidth;
+        case SMALL -> this.borderWidth;
+        default -> 0;
         };
     }
     

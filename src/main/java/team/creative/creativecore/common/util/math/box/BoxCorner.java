@@ -49,17 +49,17 @@ public enum BoxCorner {
     
     public Facing getFacing(Axis axis) {
         return switch (axis) {
-            case X -> x;
-            case Y -> y;
-            case Z -> z;
+        case X -> x;
+        case Y -> y;
+        case Z -> z;
         };
     }
     
     public BoxCorner mirror(Axis axis) {
         return switch (axis) {
-            case X -> getCorner(x.opposite(), y, z);
-            case Y -> getCorner(x, y.opposite(), z);
-            case Z -> getCorner(x, y, z.opposite());
+        case X -> getCorner(x.opposite(), y, z);
+        case Y -> getCorner(x, y.opposite(), z);
+        case Z -> getCorner(x, y, z.opposite());
         };
     }
     

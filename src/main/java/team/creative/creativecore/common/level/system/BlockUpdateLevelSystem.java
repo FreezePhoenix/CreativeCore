@@ -2,7 +2,6 @@ package team.creative.creativecore.common.level.system;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 
 import net.minecraft.core.BlockPos;
@@ -43,25 +42,25 @@ public class BlockUpdateLevelSystem {
     
     private int getBound(Facing facing) {
         return switch (facing) {
-            case EAST -> boundMaxX;
-            case WEST -> boundMinX;
-            case UP -> boundMaxY;
-            case DOWN -> boundMinY;
-            case SOUTH -> boundMaxZ;
-            case NORTH -> boundMinZ;
-            default -> throw new UnsupportedOperationException();
+        case EAST -> boundMaxX;
+        case WEST -> boundMinX;
+        case UP -> boundMaxY;
+        case DOWN -> boundMinY;
+        case SOUTH -> boundMaxZ;
+        case NORTH -> boundMinZ;
+        default -> throw new UnsupportedOperationException();
         };
     }
     
     private void setBound(Facing facing, int value) {
         switch (facing) {
-            case EAST -> this.boundMaxX = value;
-            case WEST -> this.boundMinX = value;
-            case UP -> this.boundMaxY = value;
-            case DOWN -> this.boundMinY = value;
-            case SOUTH -> this.boundMaxZ = value;
-            case NORTH -> this.boundMinZ = value;
-            default -> throw new UnsupportedOperationException();
+        case EAST -> this.boundMaxX = value;
+        case WEST -> this.boundMinX = value;
+        case UP -> this.boundMaxY = value;
+        case DOWN -> this.boundMinY = value;
+        case SOUTH -> this.boundMaxZ = value;
+        case NORTH -> this.boundMinZ = value;
+        default -> throw new UnsupportedOperationException();
         }
     }
     

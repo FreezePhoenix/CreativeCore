@@ -112,17 +112,17 @@ public class CollisionCoordinator {
     
     public double getRotationDegree(Axis axis) {
         return switch (axis) {
-            case X -> rotX;
-            case Y -> rotY;
-            case Z -> rotZ;
+        case X -> rotX;
+        case Y -> rotY;
+        case Z -> rotZ;
         };
     }
     
     public Matrix3 getRotationMatrix(Axis axis) {
         return switch (axis) {
-            case X -> rotationX;
-            case Y -> rotationY;
-            case Z -> rotationZ;
+        case X -> rotationX;
+        case Y -> rotationY;
+        case Z -> rotationZ;
         };
     }
     

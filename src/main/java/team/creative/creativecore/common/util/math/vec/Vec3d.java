@@ -63,19 +63,19 @@ public class Vec3d extends VecNd<Vec3d> {
     @Override
     public double get(int dim) {
         return switch (dim) {
-            case 0 -> x;
-            case 1 -> y;
-            case 2 -> z;
-            default -> 0;
+        case 0 -> x;
+        case 1 -> y;
+        case 2 -> z;
+        default -> 0;
         };
     }
     
     @Override
     public double get(Axis axis) {
         return switch (axis) {
-            case X -> x;
-            case Y -> y;
-            case Z -> z;
+        case X -> x;
+        case Y -> y;
+        case Z -> z;
         };
     }
     
@@ -88,18 +88,18 @@ public class Vec3d extends VecNd<Vec3d> {
     @Override
     public void set(Axis axis, double value) {
         switch (axis) {
-            case X -> this.x = value;
-            case Y -> this.y = value;
-            case Z -> this.z = value;
+        case X -> this.x = value;
+        case Y -> this.y = value;
+        case Z -> this.z = value;
         }
     }
     
     @Override
     public void set(int dim, double value) {
         switch (dim) {
-            case 0 -> this.x = value;
-            case 1 -> this.y = value;
-            case 2 -> this.z = value;
+        case 0 -> this.x = value;
+        case 1 -> this.y = value;
+        case 2 -> this.z = value;
         }
     }
     
