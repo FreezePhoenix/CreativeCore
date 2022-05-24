@@ -20,6 +20,9 @@
     ],
     "client": [
       "team.creative.creativecore.client.CreativeCoreClient"
+    ],
+    "modmenu": [
+      "team.creative.creativecore.client.ModMenuImpl"
     ]
   },
   "mixins": [

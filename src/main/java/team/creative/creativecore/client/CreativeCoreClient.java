@@ -24,12 +24,16 @@ import team.creative.creativecore.common.gui.integration.GuiEventHandler;
 import team.creative.creativecore.common.gui.integration.GuiScreenIntegration;
 import team.creative.creativecore.common.gui.style.GuiStyle;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public class CreativeCoreClient implements ClientModInitializer {
     
     private static final Minecraft mc = Minecraft.getInstance();
-    
+
+    protected static Set<String> MODS = new HashSet<>();
     public static void registerClientConfig(String modid) {
-        // NOOP
+        MODS.add(modid);
     }
     
     public static float getDeltaFrameTime() {
