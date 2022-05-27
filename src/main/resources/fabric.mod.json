@@ -9,6 +9,14 @@
     "CreativeMD",
     "AriaFreeze"
   ],
+  "custom": {
+    "modmenu": {
+        "links": {
+            "modmenu.discord": "https://discord.gg/W9QM3fS"
+        },
+        "badges": [ "library" ]
+    }
+  }
   "contact": {},
   "license": "GNU LGPL v2.1",
   "icon": "assets/creativecore/icon.png",
