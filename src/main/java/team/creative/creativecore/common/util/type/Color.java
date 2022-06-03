@@ -4,8 +4,8 @@ import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.math.Vector3d;
 
 import net.minecraft.core.Vec3i;
+import team.creative.creativecore.common.util.math.vec.Vec3d;
 import team.creative.creativecore.common.util.mc.ColorUtils;
-import team.creative.creativecore.common.util.mc.ColorUtils.ColorPart;
 
 public class Color {
     
@@ -229,8 +229,8 @@ public class Color {
         RenderSystem.setShaderColor(red / 255F, green / 255F, blue / 255F, alpha / 255F);
     }
     
-    public Vector3d toVec(ColorPart part) {
-        return new Vector3d(red / 255D, green / 255D, blue / 255D);
+    public Vec3d toVec() {
+        return new Vec3d(red / 255D, green / 255D, blue / 255D);
     }
     
     public static boolean isWhite(int color) {
