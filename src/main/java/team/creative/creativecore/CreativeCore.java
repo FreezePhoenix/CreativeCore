@@ -13,17 +13,19 @@ import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.synchronization.ArgumentTypes;
-import net.minecraft.commands.synchronization.EmptyArgumentSerializer;
+import net.minecraft.commands.synchronization.ArgumentTypeInfos;
+import net.minecraft.commands.synchronization.SingletonArgumentInfo;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.util.valueproviders.UniformInt;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.MenuType;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.dimension.BuiltinDimensionTypes;
 import net.minecraft.world.level.dimension.DimensionType;
 import team.creative.creativecore.common.config.event.ConfigEventHandler;
 import team.creative.creativecore.common.config.gui.ClientSyncGuiLayer;
@@ -94,9 +96,11 @@ public class CreativeCore implements ModInitializer {
         NETWORK.registerType(OpenGuiPacket.class, OpenGuiPacket::new);
         NETWORK.registerType(ControlSyncPacket.class, ControlSyncPacket::new);
         CONFIG_HANDLER = new ConfigEventHandler(FabricLoader.getInstance().getConfigDir().toFile(), LOGGER);
-        FAKE_DIMENSION = DimensionType.create(OptionalLong
-                .empty(), true, false, false, false, 1, false, true, true, false, false, -64, 384, 384, BlockTags.INFINIBURN_OVERWORLD, DimensionType.OVERWORLD_EFFECTS, 0.0F);
-        ArgumentTypes.register("names", StringArrayArgumentType.class, new EmptyArgumentSerializer<>(() -> StringArrayArgumentType.stringArray()));
+        FAKE_DIMENSION = Holder.direct(new DimensionType(OptionalLong
+                .empty(), true, false, false, false, 1, false, false, -64, 384, 384, BlockTags.INFINIBURN_OVERWORLD, BuiltinDimensionTypes.OVERWORLD_EFFECTS, 0.0F, new DimensionType.MonsterSettings(false, false, UniformInt
+                        .of(0, 0), 0)));
+        
+        ArgumentTypeInfos.registerByClass(StringArrayArgumentType.class, SingletonArgumentInfo.contextFree(() -> StringArrayArgumentType.stringArray()));
         
         GuiLayerHandler.REGISTRY.register("info", GuiInfoStackButton.INFO_LAYER);
         GuiLayerHandler.REGISTRY.register("player", GuiPlayerSelectorButton.PLAYER_LAYER);

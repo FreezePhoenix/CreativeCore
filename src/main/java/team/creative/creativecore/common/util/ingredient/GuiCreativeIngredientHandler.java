@@ -6,7 +6,7 @@ import java.util.Set;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.core.Registry;
-import net.minecraft.network.chat.TextComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -55,44 +55,60 @@ public abstract class GuiCreativeIngredientHandler {
                 }
             }
             
-            onChanged(gui, new GuiControlChangedEvent(selector));
-        }
-        
-        @Override
-        public boolean canHandle(CreativeIngredient info) {
-            return info instanceof CreativeIngredientBlock || info instanceof CreativeIngredientItem || info instanceof CreativeIngredientItemStack;
-        }
-        
-        @Override
-        public CreativeIngredient parseControls(GuiParent gui) {
-            ItemStack stack = ((GuiStackSelector) gui.get("inv")).getSelected();
-            if (stack != null) {
-                boolean damage = ((GuiStateButton) gui.get("damage")).getState() == 1;
-                boolean nbt = ((GuiStateButton) gui.get("nbt")).getState() == 1;
-                if (damage) {
-                    return new CreativeIngredientItemStack(stack.copy(), nbt);
-                } else {
-                    if (!(Block.byItem(stack.getItem()) instanceof AirBlock))
-                        return new CreativeIngredientBlock(Block.byItem(stack.getItem()));
-                    else
-                        return new CreativeIngredientItem(stack.getItem());
+                
+                gui.add(new GuiLabel("guilabel1"));
+                gui.add(new GuiLabel("guilabel2"));
+                
+                GuiStateButton damage = new GuiStateButton("damage", 0, new TextListBuilder().add("Damage: Off", "Damage: On"));
+                gui.add(damage);
+                GuiStateButton nbt = new GuiStateButton("nbt", 0, new TextListBuilder().add("NBT: Off", "NBT: On"));
+                gui.add(nbt);
+                
+                if (info instanceof CreativeIngredientBlock || info instanceof CreativeIngredientItem || info instanceof CreativeIngredientItemStack) {
+                    selector.setSelectedForce(info.getExample().copy());
+                    if (info instanceof CreativeIngredientItemStack) {
+                        damage.nextState();
+                        if (((CreativeIngredientItemStack) info).needNBT)
+                            nbt.nextState();
+                    }
                 }
+                
+                onChanged(gui, new GuiControlChangedEvent(selector));
             }
-            return null;
-        }
-        
-        @Override
-        public void onChanged(GuiParent gui, GuiControlChangedEvent event) {
-            if (event.control.is("inv")) {
-                GuiStackSelector selector = (GuiStackSelector) event.control;
-                if (selector != null) {
-                    ItemStack stack = selector.getSelected();
-                    if (!stack.isEmpty()) {
-                        ((GuiLabel) gui.get("guilabel1")).setTitle(new TextComponent("damage: " + stack.getDamageValue()));
-                        ((GuiLabel) gui.get("guilabel2")).setTitle(new TextComponent("nbt: " + stack.getTag()));
+            
+            @Override
+            public boolean canHandle(CreativeIngredient info) {
+                return info instanceof CreativeIngredientBlock || info instanceof CreativeIngredientItem || info instanceof CreativeIngredientItemStack;
+            }
+            
+            @Override
+            public CreativeIngredient parseControls(GuiParent gui) {
+                ItemStack stack = ((GuiStackSelector) gui.get("inv")).getSelected();
+                if (stack != null) {
+                    boolean damage = ((GuiStateButton) gui.get("damage")).getState() == 1;
+                    boolean nbt = ((GuiStateButton) gui.get("nbt")).getState() == 1;
+                    if (damage) {
+                        return new CreativeIngredientItemStack(stack.copy(), nbt);
                     } else {
-                        ((GuiLabel) gui.get("guilabel1")).setTitle(new TextComponent(""));
-                        ((GuiLabel) gui.get("guilabel2")).setTitle(new TextComponent(""));
+                        if (!(Block.byItem(stack.getItem()) instanceof AirBlock))
+                            return new CreativeIngredientBlock(Block.byItem(stack.getItem()));
+                        else
+                            return new CreativeIngredientItem(stack.getItem());
+                    }
+                }
+                return null;
+            }
+            
+            @Override
+            public void onChanged(GuiParent gui, GuiControlChangedEvent event) {
+                if (event.control.is("inv")) {
+                    GuiStackSelector selector = (GuiStackSelector) event.control;
+                    if (selector != null) {
+                        ItemStack stack = selector.getSelected();
+                        if (!stack.isEmpty()) {
+                            ((GuiLabel) gui.get("guilabel1")).setTitle(Component.literal("damage: " + stack.getDamageValue()));
+                            ((GuiLabel) gui.get("guilabel2")).setTitle(Component.literal("nbt: " + stack.getTag()));
+                        } else {
                     }
                 }
             }
@@ -218,7 +234,7 @@ public abstract class GuiCreativeIngredientHandler {
             
             @Override
             public void createControls(GuiParent gui, CreativeIngredient info) {
-                gui.add(new GuiLabel("info").setTitle(new TextComponent("Nothing to select")));
+                gui.add(new GuiLabel("info").setTitle(Component.literal("Nothing to select")));
             }
             
             @Override

@@ -386,12 +386,12 @@ public class RenderBox extends AlignedBox {
         return !state.getMaterial().isSolidBlocking() || !state.getMaterial().isSolid();
     }
     
-    protected List<BakedQuad> getBakedQuad(LevelAccessor level, BakedModel blockModel, BlockState state, Facing facing, BlockPos pos, Random rand) {
-        return OptifineHelper.getBakedQuad(blockModel.getQuads(state, facing.toVanilla(), rand), level, state, facing, pos, rand);
+    protected List<BakedQuad> getBakedQuad(LevelAccessor level, BakedModel blockModel, BlockState state, Facing facing, BlockPos pos, RenderType layer, RandomSource rand) {
+        return OptifineHelper.getBakedQuad(blockModel.getQuads(state, facing.toVanilla(), rand, EmptyModelData.INSTANCE), level, state, facing, pos, layer, rand);
     }
     
-    public List<BakedQuad> getBakedQuad(LevelAccessor level, @Nullable BlockPos pos, BlockPos offset, BlockState state, BakedModel blockModel, Facing facing, Random rand, boolean overrideTint, int defaultColor) {
-        List<BakedQuad> blockQuads = getBakedQuad(level, blockModel, state, facing, pos, rand);
+    public List<BakedQuad> getBakedQuad(LevelAccessor level, @Nullable BlockPos pos, BlockPos offset, BlockState state, BakedModel blockModel, Facing facing, RenderType layer, RandomSource rand, boolean overrideTint, int defaultColor) {
+        List<BakedQuad> blockQuads = getBakedQuad(level, blockModel, state, facing, pos, layer, rand);
         
         if (blockQuads.isEmpty())
             return Collections.emptyList();

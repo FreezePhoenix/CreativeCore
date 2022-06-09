@@ -26,17 +26,17 @@ import team.creative.creativecore.common.util.math.vec.Vec3d;
 
 public class FakeClientLevel extends CreativeClientLevel {
     
-    private final Scoreboard scoreboard = new Scoreboard();
     public boolean shouldRender;
-    private final DimensionSpecialEffects effects;
+    private final Scoreboard scoreboard = new Scoreboard();
+    private DimensionSpecialEffects effects;
+    
+    public static FakeClientLevel createFakeWorldClient(String name, FakeLevelInfo info, int radius) {
+        return new FakeClientLevel(info, radius, Minecraft.getInstance()::getProfiler, false, 0);
+    }
     
     protected FakeClientLevel(WritableLevelData worldInfo, int radius, Supplier<ProfilerFiller> supplier, boolean debug, long seed) {
         super(worldInfo, radius, supplier, debug, seed);
         effects = DimensionSpecialEffects.forType(dimensionType());
-    }
-    
-    public static FakeClientLevel createFakeWorldClient(String name, FakeLevelInfo info, int radius) {
-        return new FakeClientLevel(info, radius, Minecraft.getInstance()::getProfiler, false, 0);
     }
     
     @Override
@@ -60,13 +60,20 @@ public class FakeClientLevel extends CreativeClientLevel {
         if (!p_230487_2_) {
             return flag ? 0.9F : 1.0F;
         } else {
-            return switch (p_230487_1_) {
-            case DOWN -> flag ? 0.9F : 0.5F;
-            case UP -> flag ? 0.9F : 1.0F;
-            case NORTH, SOUTH -> 0.8F;
-            case WEST, EAST -> 0.6F;
-            default -> 1.0F;
-            };
+            switch (p_230487_1_) {
+                case DOWN:
+                    return flag ? 0.9F : 0.5F;
+                case UP:
+                    return flag ? 0.9F : 1.0F;
+                case NORTH:
+                case SOUTH:
+                    return 0.8F;
+                case WEST:
+                case EAST:
+                    return 0.6F;
+                default:
+                    return 1.0F;
+            }
         }
     }
     
@@ -75,6 +82,12 @@ public class FakeClientLevel extends CreativeClientLevel {
     
     @Override
     public void playSound(Player p_217384_1_, Entity p_217384_2_, SoundEvent p_217384_3_, SoundSource p_217384_4_, float p_217384_5_, float p_217384_6_) {}
+    
+    @Override
+    public void playSeededSound(Player p_220363_, double p_220364_, double p_220365_, double p_220366_, SoundEvent p_220367_, SoundSource p_220368_, float p_220369_, float p_220370_, long p_220371_) {}
+    
+    @Override
+    public void playSeededSound(Player p_220372_, Entity p_220373_, SoundEvent p_220374_, SoundSource p_220375_, float p_220376_, float p_220377_, long p_220378_) {}
     
     @Override
     public Scoreboard getScoreboard() {
@@ -105,4 +118,5 @@ public class FakeClientLevel extends CreativeClientLevel {
     public String toString() {
         return "FakeClientLevel";
     }
+    
 }

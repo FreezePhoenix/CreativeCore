@@ -7,7 +7,6 @@ import net.minecraft.CrashReportCategory;
 import net.minecraft.ReportedException;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
-import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.util.profiling.ProfilerFiller;
 import net.minecraft.world.entity.Entity;
@@ -16,8 +15,11 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.chunk.LevelChunk;
+import net.minecraft.world.level.gameevent.GameEvent;
+import net.minecraft.world.level.gameevent.GameEvent.Context;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.storage.WritableLevelData;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.ticks.BlackholeTickAccess;
 import net.minecraft.world.ticks.LevelTickAccess;
 import team.creative.creativecore.CreativeCore;
@@ -38,7 +40,7 @@ public abstract class CreativeLevel extends Level implements IOrientatedLevel {
     public boolean preventNeighborUpdate = false;
     
     protected CreativeLevel(WritableLevelData worldInfo, int radius, Supplier<ProfilerFiller> supplier, boolean client, boolean debug, long seed) {
-        super(worldInfo, CreativeCore.FAKE_DIMENSION_NAME, Holder.direct(CreativeCore.FAKE_DIMENSION), supplier, client, debug, seed);
+        super(worldInfo, CreativeCore.FAKE_DIMENSION_NAME, CreativeCore.FAKE_DIMENSION, supplier, client, debug, seed, 1000000);
         this.chunkSource = new FakeChunkCache(this, radius);
     }
     
@@ -57,29 +59,30 @@ public abstract class CreativeLevel extends Level implements IOrientatedLevel {
     }
     
     @Override
-    public void neighborChanged(BlockPos pos, Block blockIn, BlockPos fromPos) {
+    @SuppressWarnings("deprecation")
+    public void neighborChanged(BlockPos pos, Block block, BlockPos fromPos) {
         if (preventNeighborUpdate)
             return;
         if (this.isClientSide) {
             BlockState blockstate = this.getBlockState(pos);
             
             try {
-                blockstate.neighborChanged(this, pos, blockIn, fromPos, false);
+                blockstate.neighborChanged(this, pos, block, fromPos, false);
             } catch (Throwable throwable) {
                 CrashReport crashreport = CrashReport.forThrowable(throwable, "Exception while updating neighbours");
                 CrashReportCategory crashreportcategory = crashreport.addCategory("Block being updated");
                 crashreportcategory.setDetail("Source block type", () -> {
                     try {
-                        return String.format("ID #%s (%s // %s)", Registry.BLOCK.getKey(blockIn), blockIn.getDescriptionId(), blockIn.getClass().getCanonicalName());
+                        return String.format("ID #%s (%s // %s)", Registry.BLOCK.getKey(block), block.getDescriptionId(), block.getClass().getCanonicalName());
                     } catch (Throwable throwable1) {
-                        return "ID #" + Registry.BLOCK.getKey(blockIn);
+                        return "ID #" + Registry.BLOCK.getKey(block);
                     }
                 });
                 CrashReportCategory.populateBlockDetails(crashreportcategory, this, pos, blockstate);
                 throw new ReportedException(crashreport);
             }
         } else
-            super.neighborChanged(pos, blockIn, fromPos);
+            super.neighborChanged(pos, block, fromPos);
     }
     
     @Override
@@ -138,5 +141,8 @@ public abstract class CreativeLevel extends Level implements IOrientatedLevel {
     public LevelTickAccess<Fluid> getFluidTicks() {
         return BlackholeTickAccess.emptyLevelList();
     }
+    
+    @Override
+    public void gameEvent(GameEvent p_220404_, Vec3 p_220405_, Context p_220406_) {}
     
 }

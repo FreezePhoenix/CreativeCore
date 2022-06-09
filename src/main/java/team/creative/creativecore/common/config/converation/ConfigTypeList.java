@@ -11,7 +11,7 @@ import com.google.gson.JsonElement;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import team.creative.creativecore.Side;
 import team.creative.creativecore.common.config.gui.GuiConfigSubControl;
 import team.creative.creativecore.common.config.gui.GuiConfigSubControlHolder;
@@ -84,7 +84,7 @@ public class ConfigTypeList extends ConfigTypeConveration<List> {
                 ((GuiConfigSubControlHolder) control).createControls();
             }
             listBox.addItem(control);
-        }).setTitle(new TranslatableComponent("gui.add")));
+        }).setTitle(Component.translatable("gui.add")));
     }
     
     @Override

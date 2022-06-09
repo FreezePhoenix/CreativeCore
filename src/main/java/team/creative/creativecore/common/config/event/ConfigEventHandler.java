@@ -131,14 +131,24 @@ public class ConfigEventHandler {
                         saveClientFieldList(path, key, enabled);
         }
     }
-    
-    private static void enable(ConfigKey field) {
+
+	private static void enable(ConfigKey field) {
         field.forceSynchronization = true;
         Object object = field.get();
         if (object instanceof ICreativeConfigHolder)
             for (ConfigKey key : ((ICreativeConfigHolder) object).fields())
                 if (key.isWithoutForce(Side.CLIENT))
                     enable(key);
+    
+    @OnlyIn(value = Dist.CLIENT)
+    public boolean isOwner(MinecraftServer server) {
+        return server.getSingleplayerProfile().getName().equals(Minecraft.getInstance().getUser().getName());
+    }
+    
+    @SubscribeEvent
+    public void loadWorld(Load event) {
+        if (event.getWorld().isClientSide())
+            load(Side.CLIENT);
     }
     
     private DecimalFormat generateFormat() {

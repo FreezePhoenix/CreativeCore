@@ -90,6 +90,9 @@ public abstract class CreativeClientLevel extends CreativeLevel {
             entity.unRide();
             CreativeClientLevel.this.players.remove(entity);
         }
+        
+        @Override
+        public void onSectionChange(Entity entity) {}
     }
     
 }

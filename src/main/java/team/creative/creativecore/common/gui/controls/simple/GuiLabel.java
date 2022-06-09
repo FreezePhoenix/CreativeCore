@@ -8,7 +8,6 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.network.chat.Component;
-import net.minecraft.network.chat.TranslatableComponent;
 import team.creative.creativecore.client.render.text.CompiledText;
 import team.creative.creativecore.common.gui.Align;
 import team.creative.creativecore.common.gui.GuiChildControl;
@@ -34,7 +33,7 @@ public class GuiLabel extends GuiControl {
     }
     
     public GuiLabel setTranslate(String translate) {
-        return setTitle(new TranslatableComponent(translate));
+        return setTitle(Component.translatable(translate));
     }
     
     public GuiLabel setTitle(Component component) {
