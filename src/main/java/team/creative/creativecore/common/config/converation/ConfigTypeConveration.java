@@ -33,6 +33,7 @@ import team.creative.creativecore.common.config.holder.ICreativeConfigHolder;
 import team.creative.creativecore.common.config.premade.NamedList;
 import team.creative.creativecore.common.config.premade.Permission;
 import team.creative.creativecore.common.config.premade.RegistryObjectConfig;
+import team.creative.creativecore.common.config.premade.SelectableConfig;
 import team.creative.creativecore.common.config.premade.SoundConfig;
 import team.creative.creativecore.common.config.sync.ConfigSynchronization;
 import team.creative.creativecore.common.gui.GuiControl;
@@ -526,7 +527,7 @@ public abstract class ConfigTypeConveration<T> {
             }
             
             @Override
-            @OnlyIn(value = Dist.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             public void createControls(GuiParent parent, ConfigKeyField key, Class clazz) {
                 RegistryObjectConfig value = (RegistryObjectConfig) key.getDefault();
                 parent.add(new GuiComboBoxMapped<ResourceLocation>("sound", new TextMapBuilder<ResourceLocation>()
@@ -534,14 +535,14 @@ public abstract class ConfigTypeConveration<T> {
             }
             
             @Override
-            @OnlyIn(value = Dist.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             public void loadValue(RegistryObjectConfig value, GuiParent parent, ConfigKeyField key) {
                 GuiComboBoxMapped<ResourceLocation> box = (GuiComboBoxMapped<ResourceLocation>) parent.get("sound");
                 box.select(value.location);
             }
             
             @Override
-            @OnlyIn(value = Dist.CLIENT)
+            @OnlyIn(Dist.CLIENT)
             protected RegistryObjectConfig saveValue(GuiParent parent, Class clazz, ConfigKeyField key) {
                 RegistryObjectConfig object = (RegistryObjectConfig) key.getDefault();
                 GuiComboBoxMapped<ResourceLocation> box = (GuiComboBoxMapped<ResourceLocation>) parent.get("sound");
@@ -552,6 +553,51 @@ public abstract class ConfigTypeConveration<T> {
             @Override
             public RegistryObjectConfig set(ConfigKeyField key, RegistryObjectConfig value) {
                 value.configured(null);
+                return value;
+            }
+            
+        });
+        
+        registerType(SelectableConfig.class, new ConfigTypeConveration<SelectableConfig>() {
+            
+            @Override
+            public SelectableConfig readElement(SelectableConfig defaultValue, boolean loadDefault, boolean ignoreRestart, JsonElement element, Side side, ConfigKeyField key) {
+                if (element.isJsonPrimitive() && ((JsonPrimitive) element).isNumber())
+                    defaultValue.select(element.getAsInt());
+                else
+                    defaultValue.reset();
+                return defaultValue;
+            }
+            
+            @Override
+            public JsonElement writeElement(SelectableConfig value, SelectableConfig defaultValue, boolean saveDefault, boolean ignoreRestart, Side side, ConfigKeyField key) {
+                return new JsonPrimitive(value.getSelected());
+            }
+            
+            @Override
+            @OnlyIn(Dist.CLIENT)
+            public void createControls(GuiParent parent, @Nullable ConfigKeyField key, Class clazz) {
+                parent.add(new GuiComboBox("data", new TextListBuilder().add(((SelectableConfig) key.get()).getArray(), x -> x.toString())).setExpandableX());
+            }
+            
+            @Override
+            @OnlyIn(Dist.CLIENT)
+            public void loadValue(SelectableConfig value, GuiParent parent, ConfigKeyField key) {
+                GuiComboBox box = (GuiComboBox) parent.get("data");
+                box.select(value.getSelected());
+            }
+            
+            @Override
+            @OnlyIn(Dist.CLIENT)
+            protected SelectableConfig saveValue(GuiParent parent, Class clazz, @Nullable ConfigKeyField key) {
+                SelectableConfig config = (SelectableConfig) key.get();
+                GuiComboBox box = (GuiComboBox) parent.get("data");
+                config.select(box.getIndex());
+                return config;
+            }
+            
+            @Override
+            public SelectableConfig set(ConfigKeyField key, SelectableConfig value) {
                 return value;
             }
             
