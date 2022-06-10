@@ -5,38 +5,35 @@ import java.util.Collection;
 import com.google.gson.JsonObject;
 
 import team.creative.creativecore.Side;
+import team.creative.creativecore.common.config.api.IConfigObject;
 import team.creative.creativecore.common.config.sync.ConfigSynchronization;
 
-public interface ICreativeConfigHolder {
+public interface ICreativeConfigHolder extends IConfigObject {
     
-    ICreativeConfigHolder parent();
+    public ICreativeConfigHolder parent();
     
-    default String getName() {
+    public default String getName() {
         return path()[path().length - 1];
     }
     
-    String[] path();
+    public String[] path();
     
-    Collection<? extends ConfigKey> fields();
+    public Collection<? extends ConfigKey> fields();
     
-    Collection<String> names();
+    public Collection<String> names();
     
-    Object get(String key);
+    public Object get(String key);
     
-    ConfigKey getField(String key);
+    public ConfigKey getField(String key);
     
-    boolean isDefault(Side side);
+    public void load(boolean loadDefault, boolean ignoreRestart, JsonObject json, Side side);
     
-    void restoreDefault(Side side, boolean ignoreRestart);
+    public JsonObject save(boolean saveDefault, boolean ignoreRestart, Side side);
     
-    void load(boolean loadDefault, boolean ignoreRestart, JsonObject json, Side side);
+    public boolean isEmpty(Side side);
     
-    JsonObject save(boolean saveDefault, boolean ignoreRestart, Side side);
+    public boolean isEmptyWithoutForce(Side side);
     
-    boolean isEmpty(Side side);
-    
-    boolean isEmptyWithoutForce(Side side);
-    
-    ConfigSynchronization synchronization();
+    public ConfigSynchronization synchronization();
     
 }

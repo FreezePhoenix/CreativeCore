@@ -25,6 +25,7 @@ import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import team.creative.creativecore.Side;
 import team.creative.creativecore.common.config.api.CreativeConfig;
+import team.creative.creativecore.common.config.gui.IGuiConfigParent;
 import team.creative.creativecore.common.config.holder.ConfigHolderDynamic;
 import team.creative.creativecore.common.config.holder.ConfigHolderObject;
 import team.creative.creativecore.common.config.holder.ConfigKey;
@@ -206,7 +207,7 @@ public abstract class ConfigTypeConveration<T> {
             
             @Override
             @Environment(EnvType.CLIENT)
-            public void createControls(GuiParent parent, @Nullable ConfigKeyField key, Class clazz) {
+            public void createControls(GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key, Class clazz) {
                 boolean decimal = isDecimal(clazz);
                 if (key != null) {
                     if (decimal) {
@@ -470,7 +471,7 @@ public abstract class ConfigTypeConveration<T> {
             
             @Override
             @Environment(EnvType.CLIENT)
-            public void createControls(GuiParent parent, ConfigKeyField key, Class clazz) {
+            public void createControls(GuiParent parent, IGuiConfigParent configParent, ConfigKeyField key, Class clazz) {
                 parent.add(new GuiTextfield("search", 30, 14));
                 parent.add(new GuiComboBoxMapped<ResourceLocation>("sound", new TextMapBuilder<ResourceLocation>()
                         .addComponent(Registry.SOUND_EVENT.getKeys(), x -> Component.literal(x.toString()))));
@@ -484,7 +485,7 @@ public abstract class ConfigTypeConveration<T> {
             
             @Override
             @Environment(EnvType.CLIENT)
-            public void loadValue(SoundConfig value, GuiParent parent, ConfigKeyField key) {
+            public void loadValue(SoundConfig value, GuiParent parent, IGuiConfigParent configParent, ConfigKeyField key) {
                 GuiComboBoxMapped<ResourceLocation> box = (GuiComboBoxMapped<ResourceLocation>) parent.get("sound");
                 GuiSlider volume = (GuiSlider) parent.get("volume");
                 GuiSlider pitch = (GuiSlider) parent.get("pitch");
@@ -496,7 +497,7 @@ public abstract class ConfigTypeConveration<T> {
             
             @Override
             @Environment(EnvType.CLIENT)
-            protected SoundConfig saveValue(GuiParent parent, Class clazz, ConfigKeyField key) {
+            protected SoundConfig saveValue(GuiParent parent, IGuiConfigParent configParent, Class clazz, ConfigKeyField key) {
                 GuiComboBoxMapped<ResourceLocation> box = (GuiComboBoxMapped<ResourceLocation>) parent.get("sound");
                 GuiSlider volume = (GuiSlider) parent.get("volume");
                 GuiSlider pitch = (GuiSlider) parent.get("pitch");
@@ -528,7 +529,7 @@ public abstract class ConfigTypeConveration<T> {
             
             @Override
             @OnlyIn(Dist.CLIENT)
-            public void createControls(GuiParent parent, ConfigKeyField key, Class clazz) {
+            public void createControls(GuiParent parent, IGuiConfigParent configParent, ConfigKeyField key, Class clazz) {
                 RegistryObjectConfig value = (RegistryObjectConfig) key.getDefault();
                 parent.add(new GuiComboBoxMapped<ResourceLocation>("sound", new TextMapBuilder<ResourceLocation>()
                         .addComponent(value.registry.keySet(), x -> Component.literal(x.toString()))));
@@ -536,14 +537,14 @@ public abstract class ConfigTypeConveration<T> {
             
             @Override
             @OnlyIn(Dist.CLIENT)
-            public void loadValue(RegistryObjectConfig value, GuiParent parent, ConfigKeyField key) {
+            public void loadValue(RegistryObjectConfig value, GuiParent parent, IGuiConfigParent configParent, ConfigKeyField key) {
                 GuiComboBoxMapped<ResourceLocation> box = (GuiComboBoxMapped<ResourceLocation>) parent.get("sound");
                 box.select(value.location);
             }
             
             @Override
             @OnlyIn(Dist.CLIENT)
-            protected RegistryObjectConfig saveValue(GuiParent parent, Class clazz, ConfigKeyField key) {
+            protected RegistryObjectConfig saveValue(GuiParent parent, IGuiConfigParent configParent, Class clazz, ConfigKeyField key) {
                 RegistryObjectConfig object = (RegistryObjectConfig) key.getDefault();
                 GuiComboBoxMapped<ResourceLocation> box = (GuiComboBoxMapped<ResourceLocation>) parent.get("sound");
                 
@@ -576,20 +577,29 @@ public abstract class ConfigTypeConveration<T> {
             
             @Override
             @OnlyIn(Dist.CLIENT)
-            public void createControls(GuiParent parent, @Nullable ConfigKeyField key, Class clazz) {
-                parent.add(new GuiComboBox("data", new TextListBuilder().add(((SelectableConfig) key.get()).getArray(), x -> x.toString())).setExpandableX());
+            public void createControls(GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key, Class clazz) {
+                SelectableConfig value = (SelectableConfig) key.get();
+                configParent.setCustomData(value.getSelected());
+                parent.add(new GuiComboBox("data", new TextListBuilder().add(value.getArray(), x -> x.toString())).setExpandableX());
             }
             
             @Override
             @OnlyIn(Dist.CLIENT)
-            public void loadValue(SelectableConfig value, GuiParent parent, ConfigKeyField key) {
+            public void loadValue(SelectableConfig value, GuiParent parent, IGuiConfigParent configParent, ConfigKeyField key) {
                 GuiComboBox box = (GuiComboBox) parent.get("data");
                 box.select(value.getSelected());
             }
             
             @Override
             @OnlyIn(Dist.CLIENT)
-            protected SelectableConfig saveValue(GuiParent parent, Class clazz, @Nullable ConfigKeyField key) {
+            public void restoreDefault(SelectableConfig value, GuiParent parent, IGuiConfigParent configParent, ConfigKeyField key) {
+                value.reset();
+                loadValue(value, parent, configParent, key);
+            }
+            
+            @Override
+            @OnlyIn(Dist.CLIENT)
+            protected SelectableConfig saveValue(GuiParent parent, IGuiConfigParent configParent, Class clazz, @Nullable ConfigKeyField key) {
                 SelectableConfig config = (SelectableConfig) key.get();
                 GuiComboBox box = (GuiComboBox) parent.get("data");
                 config.select(box.getIndex());
@@ -599,6 +609,12 @@ public abstract class ConfigTypeConveration<T> {
             @Override
             public SelectableConfig set(ConfigKeyField key, SelectableConfig value) {
                 return value;
+            }
+            
+            @Override
+            @OnlyIn(Dist.CLIENT)
+            public boolean shouldSave(SelectableConfig value, GuiParent parent, IGuiConfigParent configParent, ConfigKeyField key) {
+                return value.getSelected() != (int) configParent.getCustomData();
             }
             
         });
@@ -624,15 +640,15 @@ public abstract class ConfigTypeConveration<T> {
             
             @Override
             @Environment(EnvType.CLIENT)
-            public void createControls(GuiParent parent, @Nullable ConfigKeyField key, Class clazz) {}
+            public void createControls(GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key, Class clazz) {}
             
             @Override
             @Environment(EnvType.CLIENT)
-            public void loadValue(ConfigHolderObject value, GuiParent parent, @Nullable ConfigKeyField key) {}
+            public void loadValue(ConfigHolderObject value, GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key) {}
             
             @Override
             @Environment(EnvType.CLIENT)
-            protected ConfigHolderObject saveValue(GuiParent parent, Class clazz, @Nullable ConfigKeyField key) {
+            protected ConfigHolderObject saveValue(GuiParent parent, IGuiConfigParent configParent, Class clazz, @Nullable ConfigKeyField key) {
                 return null;
             }
             
@@ -660,15 +676,15 @@ public abstract class ConfigTypeConveration<T> {
             
             @Override
             @Environment(EnvType.CLIENT)
-            public void createControls(GuiParent parent, @Nullable ConfigKeyField key, Class clazz) {}
+            public void createControls(GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key, Class clazz) {}
             
             @Override
             @Environment(EnvType.CLIENT)
-            public void loadValue(ConfigHolderDynamic value, GuiParent parent, @Nullable ConfigKeyField key) {}
+            public void loadValue(ConfigHolderDynamic value, GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key) {}
             
             @Override
             @Environment(EnvType.CLIENT)
-            protected ConfigHolderDynamic saveValue(GuiParent parent, Class clazz, @Nullable ConfigKeyField key) {
+            protected ConfigHolderDynamic saveValue(GuiParent parent, IGuiConfigParent configParent, Class clazz, @Nullable ConfigKeyField key) {
                 return null;
             }
             
@@ -814,19 +830,29 @@ public abstract class ConfigTypeConveration<T> {
     public abstract JsonElement writeElement(T value, T defaultValue, boolean saveDefault, boolean ignoreRestart, Side side, @Nullable ConfigKeyField key);
     
     @Environment(EnvType.CLIENT)
-    public abstract void createControls(GuiParent parent, @Nullable ConfigKeyField key, Class clazz);
+    public abstract void createControls(GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key, Class clazz);
     
     @Environment(EnvType.CLIENT)
-    public abstract void loadValue(T value, GuiParent parent, @Nullable ConfigKeyField key);
+    public abstract void loadValue(T value, GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key);
     
     @Environment(EnvType.CLIENT)
-    protected abstract T saveValue(GuiParent parent, Class clazz, @Nullable ConfigKeyField key);
+    public void restoreDefault(T value, GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key) {
+        loadValue(value, parent, configParent, key);
+    }
+    
+    @Environment(EnvType.CLIENT)
+    public boolean shouldSave(T value, GuiParent parent, IGuiConfigParent configParent, ConfigKeyField key) {
+        return !key.get().equals(value);
+    }
+    
+    @OnlyIn(Dist.CLIENT)
+    protected abstract T saveValue(GuiParent parent, IGuiConfigParent configParent, Class clazz, @Nullable ConfigKeyField key);
     
     public abstract T set(ConfigKeyField key, T value);
     
     @Environment(EnvType.CLIENT)
-    public T save(GuiParent parent, Class clazz, @Nullable ConfigKeyField key) {
-        T value = saveValue(parent, clazz, key);
+    public T save(GuiParent parent, IGuiConfigParent configParent, Class clazz, @Nullable ConfigKeyField key) {
+        T value = saveValue(parent, configParent, clazz, key);
         if (value != null && key != null)
             return set(key, value);
         return value;
@@ -854,7 +880,7 @@ public abstract class ConfigTypeConveration<T> {
         
         @Override
         @Environment(EnvType.CLIENT)
-        public void createControls(GuiParent parent, @Nullable ConfigKeyField key, Class clazz) {
+        public void createControls(GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key, Class clazz) {
             createControls(parent, clazz);
         }
         
@@ -863,7 +889,7 @@ public abstract class ConfigTypeConveration<T> {
         
         @Override
         @Environment(EnvType.CLIENT)
-        public void loadValue(T value, GuiParent parent, @Nullable ConfigKeyField key) {
+        public void loadValue(T value, GuiParent parent, IGuiConfigParent configParent, @Nullable ConfigKeyField key) {
             loadValue(value, parent);
         }
         
@@ -872,7 +898,7 @@ public abstract class ConfigTypeConveration<T> {
         
         @Override
         @Environment(EnvType.CLIENT)
-        protected T saveValue(GuiParent parent, Class clazz, @Nullable ConfigKeyField key) {
+        protected T saveValue(GuiParent parent, IGuiConfigParent configParent, Class clazz, @Nullable ConfigKeyField key) {
             return saveValue(parent, clazz);
         }
         
