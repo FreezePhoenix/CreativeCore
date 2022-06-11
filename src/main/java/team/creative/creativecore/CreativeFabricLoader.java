@@ -5,7 +5,7 @@ import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 import net.fabricmc.api.EnvType;
-import net.fabricmc.fabric.api.client.command.v1.ClientCommandManager;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
@@ -34,7 +34,7 @@ public class CreativeFabricLoader implements ICreativeLoader {
     @Override
     public void registerClient(ClientLoader loader) {
         if (FabricLoader.getInstance().getEnvironmentType() == EnvType.CLIENT)
-            loader.registerClientCommands(ClientCommandManager.DISPATCHER);
+            ClientCommandRegistrationCallback.EVENT.register((x, y) -> loader.registerClientCommands(x));
     }
     
     @Override

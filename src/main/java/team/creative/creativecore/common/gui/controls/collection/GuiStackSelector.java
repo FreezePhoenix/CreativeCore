@@ -272,26 +272,4 @@ public class GuiStackSelector extends GuiLabel {
         
     }
     
-    public static boolean contains(String search, ItemStack stack) {
-        if (search.equals(""))
-            return true;
-        if (getItemName(stack).toLowerCase().contains(search))
-            return true;
-        for (Component line : stack.getTooltipLines(null, TooltipFlag.Default.NORMAL))
-            if (line.getString().toLowerCase().contains(search))
-                return true;
-            
-        return false;
-    }
-    
-    public static String getItemName(ItemStack stack) {
-        String itemName = "";
-        try {
-            itemName = stack.getDisplayName().getString();
-        } catch (Exception e) {
-            itemName = Registry.ITEM.getKey(stack.getItem()).toString();
-        }
-        return itemName;
-    }
-    
 }

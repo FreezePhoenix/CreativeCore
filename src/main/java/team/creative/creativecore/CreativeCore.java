@@ -13,8 +13,8 @@ import net.fabricmc.fabric.api.screenhandler.v1.ScreenHandlerRegistry;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.commands.CommandSourceStack;
 import net.minecraft.commands.Commands;
-import net.minecraft.commands.synchronization.ArgumentTypeInfos;
 import net.minecraft.commands.synchronization.SingletonArgumentInfo;
+import net.minecraft.core.Holder;
 import net.minecraft.core.Registry;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.resources.ResourceKey;
@@ -47,6 +47,7 @@ import team.creative.creativecore.common.gui.packet.LayerOpenPacket;
 import team.creative.creativecore.common.gui.packet.OpenGuiPacket;
 import team.creative.creativecore.common.network.CreativeNetwork;
 import team.creative.creativecore.common.util.argument.StringArrayArgumentType;
+import team.creative.creativecore.mixin.ArgumentTypeInfosAccessor;
 
 public class CreativeCore implements ModInitializer {
     
@@ -65,7 +66,7 @@ public class CreativeCore implements ModInitializer {
     public static final GuiCreatorBasic CONFIG_CLIENT_SYNC_OPEN = GuiCreator
             .register("clientsyncconfig", new GuiCreatorBasic((player, nbt) -> new ClientSyncGuiLayer(CreativeConfigRegistry.ROOT)));
     public static ConfigEventHandler CONFIG_HANDLER;
-    public static DimensionType FAKE_DIMENSION;
+    public static Holder<DimensionType> FAKE_DIMENSION;
     public static MenuType<ContainerIntegration> GUI_CONTAINER;
     
     public CreativeCore() {
@@ -100,7 +101,7 @@ public class CreativeCore implements ModInitializer {
                 .empty(), true, false, false, false, 1, false, false, -64, 384, 384, BlockTags.INFINIBURN_OVERWORLD, BuiltinDimensionTypes.OVERWORLD_EFFECTS, 0.0F, new DimensionType.MonsterSettings(false, false, UniformInt
                         .of(0, 0), 0)));
         
-        ArgumentTypeInfos.registerByClass(StringArrayArgumentType.class, SingletonArgumentInfo.contextFree(() -> StringArrayArgumentType.stringArray()));
+        ArgumentTypeInfosAccessor.getByClass().put(StringArrayArgumentType.class, SingletonArgumentInfo.contextFree(() -> StringArrayArgumentType.stringArray()));
         
         GuiLayerHandler.REGISTRY.register("info", GuiInfoStackButton.INFO_LAYER);
         GuiLayerHandler.REGISTRY.register("player", GuiPlayerSelectorButton.PLAYER_LAYER);

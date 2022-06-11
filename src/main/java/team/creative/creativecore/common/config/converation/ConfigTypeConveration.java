@@ -18,6 +18,7 @@ import com.google.gson.JsonPrimitive;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.ChatFormatting;
+import net.minecraft.core.Registry;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.util.Mth;
@@ -474,7 +475,7 @@ public abstract class ConfigTypeConveration<T> {
             public void createControls(GuiParent parent, IGuiConfigParent configParent, ConfigKeyField key, Class clazz) {
                 parent.add(new GuiTextfield("search", 30, 14));
                 parent.add(new GuiComboBoxMapped<ResourceLocation>("sound", new TextMapBuilder<ResourceLocation>()
-                        .addComponent(Registry.SOUND_EVENT.getKeys(), x -> Component.literal(x.toString()))));
+                        .addComponent(Registry.SOUND_EVENT.keySet(), x -> Component.literal(x.toString()))));
                 GuiParent hBox = new GuiParent("vBox", GuiFlow.STACK_X);
                 hBox.add(new GuiLabel("volumeLabel").setTitle(Component.translatable("gui.volume")));
                 hBox.add(new GuiSlider("volume", 40, 10, 1, 0, 1));

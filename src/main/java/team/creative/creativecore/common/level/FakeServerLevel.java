@@ -23,7 +23,6 @@ import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.saveddata.maps.MapItemSavedData;
 import net.minecraft.world.level.storage.WritableLevelData;
 import net.minecraft.world.scores.Scoreboard;
-import net.minecraftforge.server.ServerLifecycleHooks;
 import team.creative.creativecore.common.util.math.matrix.IVecOrigin;
 import team.creative.creativecore.common.util.math.matrix.VecOrigin;
 import team.creative.creativecore.common.util.math.vec.Vec3d;
@@ -33,7 +32,7 @@ public class FakeServerLevel extends CreativeServerLevel {
     public static CreativeLevel createFakeLevel(String name, boolean client) {
         if (client)
             return createClient(name);
-        MinecraftServer server = ServerLifecycleHooks.getCurrentServer();
+        MinecraftServer server = null;
         return new FakeServerLevel(server, new FakeLevelInfo(Difficulty.PEACEFUL, false, true), 6, server::getProfiler, false, 0);
     }
     
