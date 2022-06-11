@@ -11,7 +11,6 @@ import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.loader.api.FabricLoader;
-import net.minecraft.client.renderer.LevelRenderer;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.material.Fluid;
@@ -45,12 +44,6 @@ public class CreativeFabricLoader implements ICreativeLoader {
     
     @Override
     public void registerClientRender(Runnable run) {
-        boolean a = false;
-        boolean b = true;
-        boolean c = true;
-        if(!a || (b && c)) {
-
-        }
         HudRenderCallback.EVENT.register((matrix, partialTicks) -> run.run());
     }
     
@@ -61,13 +54,13 @@ public class CreativeFabricLoader implements ICreativeLoader {
     
     @Override
     public <T> void registerListener(Consumer<T> consumer) {}
-
+    
     @Override
     public float getFluidViscosityMultiplier(Fluid fluid, Level level) {
         // 5.0F is the tick delay of Water
         return fluid.getTickDelay(level) / 5.0F;
     }
-
+    
     @Override
     public void registerClientStarted(Runnable run) {
         ClientLifecycleEvents.CLIENT_STARTED.register(x -> run.run());
