@@ -9,6 +9,7 @@ import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallba
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerWorldEvents;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.world.level.Level;
@@ -48,8 +49,19 @@ public class CreativeFabricLoader implements ICreativeLoader {
     }
     
     @Override
+    public void registerLevelTick(Runnable run) {
+        ClientTickEvents.END_WORLD_TICK.register(x -> run.run());
+        ServerTickEvents.END_WORLD_TICK.register(x -> run.run());
+    }
+    
+    @Override
     public void registerLoadLevel(Consumer<LevelAccessor> consumer) {
         ServerWorldEvents.LOAD.register((server, level) -> consumer.accept(level));
+    }
+    
+    @Override
+    public void registerUnloadLevel(Consumer<LevelAccessor> consumer) {
+        ServerWorldEvents.UNLOAD.register((server, level) -> consumer.accept(level));
     }
     
     @Override
