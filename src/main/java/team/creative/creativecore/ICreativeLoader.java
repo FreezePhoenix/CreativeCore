@@ -27,10 +27,14 @@ public interface ICreativeLoader {
     
     public void registerClientStarted(Runnable run);
     
+    public void registerLevelTick(Runnable run);
+    
     public void registerLoadLevel(Consumer<LevelAccessor> consumer);
     
+    public void registerUnloadLevel(Consumer<LevelAccessor> consumer);
+    
     public <T> void registerListener(Consumer<T> consumer);
-
+    
     public float getFluidViscosityMultiplier(Fluid fluid, Level level);
     
     public void postForge(Event event);
